@@ -1,0 +1,16 @@
+The fully updated manual is here: goo.gl/jH4NiR
+
+
+To install this, first extract "CaveDungeonToolkit v1-2 Core". You will need this for both versions.
+
+Next, decide if you want the simplified or advanced version. 
+
+The simplified version uses a light derivative of the standard shader that still preserves the look of the assets. This is better for performance but lacks the vertex influence painting system, material swapping and higher quality tesselation shaders that the advanced version has.
+
+The advanced version has all the features of the package, including vertex influence spheres, material swapping, and advanced shaders with tesselation. However, this is called "advanced" for a reason, as you might need some expertise and customize some things in order to get the performance or specific usage out of it that you want.
+
+Pick which version you want to use, and extract that.
+
+At any time you can swap versions by just extracting the other package and replacing everything.
+
+When you are done, please read the manual.txt to finish all the steps for installation or refer to the online documentation for more details.
