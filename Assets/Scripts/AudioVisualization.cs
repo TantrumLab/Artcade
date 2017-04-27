@@ -123,9 +123,9 @@ public class AudioVisualization : MonoBehaviour
         m_DeltaFrequencyLeft = new float[m_NumberOfFrequencyBands];
         m_DeltaFrequencyRight = new float[m_NumberOfFrequencyBands];
 
-        InitFloatArray(m_DeltaFrequencyStereo, 0);
-        InitFloatArray(m_DeltaFrequencyLeft, 0);
-        InitFloatArray(m_DeltaFrequencyRight, 0);
+        InitFloatArray(m_DeltaFrequencyStereo, 0.001f);
+        InitFloatArray(m_DeltaFrequencyLeft, 0.001f);
+        InitFloatArray(m_DeltaFrequencyRight, 0.001f);
 
 
         // Creates the empty arrays for the normalized samples
@@ -133,9 +133,9 @@ public class AudioVisualization : MonoBehaviour
         m_HighestFrequencyLeft = new float[m_NumberOfFrequencyBands];
         m_HighestFrequencyRight = new float[m_NumberOfFrequencyBands];
 
-        InitFloatArray(m_HighestFrequencyStereo, 0.01f);
-        InitFloatArray(m_HighestFrequencyLeft, 0.01f);
-        InitFloatArray(m_HighestFrequencyRight, 0.01f);
+        InitFloatArray(m_HighestFrequencyStereo, 1f);
+        InitFloatArray(m_HighestFrequencyLeft, 1f);
+        InitFloatArray(m_HighestFrequencyRight, 1f);
 
 
         // Creates the empty array for the total audio samlpes
