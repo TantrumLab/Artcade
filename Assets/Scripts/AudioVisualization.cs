@@ -92,10 +92,8 @@ public class AudioVisualization : MonoBehaviour
         m_AudioSource = m_AudioSource != null ? m_AudioSource : GetComponent<AudioSource>();
         // Makes sure the number of bands is atleast 8, and no larger that 16
         m_NumberOfFrequencyBands = Mathf.Clamp(m_NumberOfFrequencyBands, 8, 16);
-	}
 
-    private void Start()
-    {
+
         // Ensures there is 1 and only 1 AudioVisualiser in the scene for static refrencing
         RemoveDuplicateVisualizers();
 
