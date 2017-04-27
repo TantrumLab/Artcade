@@ -146,7 +146,7 @@ public class AudioVisualization : MonoBehaviour
         InitFloatArray(m_SamplesRight, 0);
     }
 
-    private void FixedUpdate ()
+    private void Update ()
     {
         GetAudioSpectrumData();
 
