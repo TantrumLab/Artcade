@@ -85,6 +85,10 @@ public class AudioVisualization : MonoBehaviour
     /// </summary>
     private float[] m_HighestFrequencyRight;
 
+    public int frequencyBands
+    {
+        get { return m_NumberOfFrequencyBands; }
+    }
 
     private void Awake()
     {
