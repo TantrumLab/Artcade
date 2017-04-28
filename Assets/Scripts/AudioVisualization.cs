@@ -17,7 +17,7 @@ public class AudioVisualization : MonoBehaviour
 
     /// <summary>
     /// Number of frequency bands the audio source will be split into.
-    /// Has a floor of 8, and celing of 16
+    /// Has a floor of 6, and celing of 13
     /// </summary>
     [SerializeField]
     private int m_NumberOfFrequencyBands;
@@ -36,15 +36,15 @@ public class AudioVisualization : MonoBehaviour
     /// <summary>
     /// The stereo Frequence bands of the AudioSource evenly distrubited amongst m_NumberOfFrequenceBands
     /// </summary>
-    public static float[] m_CurrentFrequencyStereo;
+    public float[] m_CurrentFrequencyStereo;
     /// <summary>
     /// The left Frequence bands of the AudioSource evenly distrubited amongst m_NumberOfFrequenceBands
     /// </summary>
-    public static float[] m_CurrentFrequencyLeft;
+    public float[] m_CurrentFrequencyLeft;
     /// <summary>
     /// The right Frequence bands of the AudioSource evenly distrubited amongst m_NumberOfFrequenceBands
     /// </summary>
-    public static float[] m_CurrentFrequencyRight;
+    public float[] m_CurrentFrequencyRight;
 
     /// <summary>
     /// The preavious value of m_CurrentFrequencyStereo
@@ -62,15 +62,15 @@ public class AudioVisualization : MonoBehaviour
     /// <summary>
     /// The change in stereo frequency since the last update
     /// </summary>
-    public static float[] m_DeltaFrequencyStereo;
+    public float[] m_DeltaFrequencyStereo;
     /// <summary>
     /// The change in left channel's frequency since the last update
     /// </summary>
-    public static float[] m_DeltaFrequencyLeft;
+    public float[] m_DeltaFrequencyLeft;
     /// <summary>
     /// The change in right channel's frequency since the last update
     /// </summary>
-    public static float[] m_DeltaFrequencyRight;
+    public float[] m_DeltaFrequencyRight;
 
     /// <summary>
     /// The normalized values (0-1) of the stereo audio bands
@@ -86,17 +86,17 @@ public class AudioVisualization : MonoBehaviour
     private float[] m_HighestFrequencyRight;
 
 
-    private void Awake ()
+    private void Awake()
     {
         // Gets the AudioSource on this GameObject if one is not given in the inspector
         m_AudioSource = m_AudioSource != null ? m_AudioSource : GetComponent<AudioSource>();
-        // Makes sure the number of bands is atleast 8, and no larger that 16
-        m_NumberOfFrequencyBands = Mathf.Clamp(m_NumberOfFrequencyBands, 8, 16);
 
+        // Makes sure the number of bands is atleast 6, and no larger that 13
+        m_NumberOfFrequencyBands = Mathf.Clamp(m_NumberOfFrequencyBands, 6, 13);
 
         // Ensures there is 1 and only 1 AudioVisualiser in the scene for static refrencing
-        RemoveDuplicateVisualizers();
-
+        // RemoveDuplicateVisualizers();
+        // Removed because values are no longer static
 
         // Creates the empty arrays for the frequency bands
         m_CurrentFrequencyStereo = new float[m_NumberOfFrequencyBands];
@@ -128,7 +128,7 @@ public class AudioVisualization : MonoBehaviour
         InitFloatArray(m_DeltaFrequencyRight, 0.001f);
 
 
-        // Creates the empty arrays for the normalized samples
+        // Creates the empty arrays for the max recorded samples
         m_HighestFrequencyStereo = new float[m_NumberOfFrequencyBands];
         m_HighestFrequencyLeft = new float[m_NumberOfFrequencyBands];
         m_HighestFrequencyRight = new float[m_NumberOfFrequencyBands];
@@ -146,7 +146,7 @@ public class AudioVisualization : MonoBehaviour
         InitFloatArray(m_SamplesRight, 0);
     }
 
-    private void Update ()
+    private void Update()
     {
         GetAudioSpectrumData();
 
@@ -154,16 +154,16 @@ public class AudioVisualization : MonoBehaviour
         SplitSingleAudioChannelArrayToFrequenceBands(m_SamplesLeft, m_CurrentFrequencyLeft);
         SplitSingleAudioChannelArrayToFrequenceBands(m_SamplesRight, m_CurrentFrequencyRight);
 
-        NormailizeFrequencyBands(m_HighestFrequencyStereo, m_CurrentFrequencyStereo);
-        NormailizeFrequencyBands(m_HighestFrequencyLeft, m_CurrentFrequencyLeft);
-        NormailizeFrequencyBands(m_HighestFrequencyRight, m_CurrentFrequencyRight);
+        NormalizeFrequencyBands(m_HighestFrequencyStereo, m_CurrentFrequencyStereo);
+        NormalizeFrequencyBands(m_HighestFrequencyLeft, m_CurrentFrequencyLeft);
+        NormalizeFrequencyBands(m_HighestFrequencyRight, m_CurrentFrequencyRight);
 
         SetFrequencyDeltas(m_CurrentFrequencyStereo, m_LastFrequencyStereo, m_DeltaFrequencyStereo);
         SetFrequencyDeltas(m_CurrentFrequencyLeft, m_LastFrequencyLeft, m_DeltaFrequencyLeft);
         SetFrequencyDeltas(m_CurrentFrequencyRight, m_LastFrequencyRight, m_DeltaFrequencyRight);
 
         print("Update");
-	}
+    }
 
 
     /// <summary>
@@ -260,10 +260,10 @@ public class AudioVisualization : MonoBehaviour
     /// </summary>
     /// <param name="highest"></param>
     /// <param name="current"></param>
-    private void NormailizeFrequencyBands(float[] highest, float[] current)
+    private void NormalizeFrequencyBands(float[] highest, float[] current)
     {
         // For each element in the array to normalize
-        for(int i = 0; i < current.Length; ++i)
+        for (int i = 0; i < current.Length; ++i)
         {
             // Set the new highest value to the larget number between the current highest, and the value to normalize
             highest[i] = highest[i] > current[i] ? highest[i] : current[i];
@@ -282,7 +282,7 @@ public class AudioVisualization : MonoBehaviour
     private void SetFrequencyDeltas(float[] current, float[] last, float[] delta)
     {
         // For each element in the 'current' array
-        for(int i = 0; i < current.Length; ++i)
+        for (int i = 0; i < current.Length; ++i)
         {
             // Set the delat to the difference between the current and last array
             delta[i] = (current[i] - last[i]);
@@ -302,13 +302,13 @@ public class AudioVisualization : MonoBehaviour
         AudioVisualization[] visualizers = FindObjectsOfType<AudioVisualization>();
 
         // For each visualizer in the scene
-        foreach (AudioVisualization av in visualizers)  
-        {   
+        foreach (AudioVisualization av in visualizers)
+        {
             // If it is NOT this one                                            
-            if(av != this)                                  
-            {   
+            if (av != this)
+            {
                 // Destroy it
-                Destroy(av.gameObject);                                    
+                Destroy(av.gameObject);
             }
         }
     }
