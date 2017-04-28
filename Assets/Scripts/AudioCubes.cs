@@ -5,12 +5,15 @@ using UnityEngine;
 public class AudioCubes : MonoBehaviour
 {
     public GameObject prefab;
+    AudioVisualization AV;
 
     List<GameObject> cubes = new List<GameObject>();
 
     void Start ()
     {
-		for (int i = 0; i < AudioVisualization.m_CurrentFrequencyStereo.Length; ++i)
+        AV = FindObjectOfType<AudioVisualization>();
+
+		for (int i = 0; i < AV.m_CurrentFrequencyStereo.Length; ++i)
         {
             GameObject g = Instantiate(prefab, transform) as GameObject;
             g.transform.Translate(g.transform.right * (2 * i));
@@ -21,11 +24,11 @@ public class AudioCubes : MonoBehaviour
 	
 	void LateUpdate ()
     {
-		for(int i = 0; i < AudioVisualization.m_CurrentFrequencyStereo.Length; ++i)
+		for(int i = 0; i < AV.m_CurrentFrequencyStereo.Length; ++i)
         {
             cubes[i].transform.localScale =
                 new Vector3(cubes[i].transform.localScale.x,
-                AudioVisualization.m_CurrentFrequencyStereo[i] * 10, 
+                AV.m_CurrentFrequencyStereo[i] * 10, 
                 cubes[i].transform.localScale.z);
 
             cubes[i].transform.localPosition =
@@ -35,8 +38,8 @@ public class AudioCubes : MonoBehaviour
 
             cubes[i].GetComponent<Renderer>().material.color =
                 new Color
-                (AudioVisualization.m_CurrentFrequencyStereo[i],
-                AudioVisualization.m_DeltaFrequencyStereo[i],
+                (AV.m_CurrentFrequencyStereo[i],
+                AV.m_DeltaFrequencyStereo[i],
                 1);
         }
 	}
