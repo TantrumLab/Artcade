@@ -161,8 +161,6 @@ public class AudioVisualization : MonoBehaviour
         SetFrequencyDeltas(m_CurrentFrequencyStereo, m_LastFrequencyStereo, m_DeltaFrequencyStereo);
         SetFrequencyDeltas(m_CurrentFrequencyLeft, m_LastFrequencyLeft, m_DeltaFrequencyLeft);
         SetFrequencyDeltas(m_CurrentFrequencyRight, m_LastFrequencyRight, m_DeltaFrequencyRight);
-
-        print("Update");
     }
 
 
