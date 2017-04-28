@@ -26,12 +26,12 @@ public class AudioVisualization : MonoBehaviour
     /// The total number of audio sambles from the connect AudioSource (Left).
     /// Will be equal to 2^m_NumberOfFrequenceBands
     /// </summary>
-    private static float[] m_SamplesLeft;
+    private float[] m_SamplesLeft;
     /// <summary>
     /// The total number of audio sambles from the connect AudioSource (right).
     /// Will be equal to 2^m_NumberOfFrequenceBands
     /// </summary>
-    private static float[] m_SamplesRight;
+    private float[] m_SamplesRight;
 
     /// <summary>
     /// The stereo Frequence bands of the AudioSource evenly distrubited amongst m_NumberOfFrequenceBands
