@@ -17,6 +17,9 @@ public class AudioCubes : MonoBehaviour
         {
             GameObject g = Instantiate(prefab, transform) as GameObject;
             g.transform.Translate(g.transform.right * (2 * i));
+
+            g.name = i.ToString();
+
             cubes.Add(g);
         }
 	}
@@ -26,10 +29,10 @@ public class AudioCubes : MonoBehaviour
     {
 		for(int i = 0; i < AV.m_CurrentFrequencyStereo.Length; ++i)
         {
-            cubes[i].transform.localScale =
-                new Vector3(cubes[i].transform.localScale.x,
-                AV.m_CurrentFrequencyStereo[i] * 10, 
-                cubes[i].transform.localScale.z);
+            cubes[i].transform.localScale +=
+                new Vector3(0,//cubes[i].transform.localScale.x,
+                AV.m_DeltaFrequencyStereo[i] * 16,
+                0);// cubes[i].transform.localScale.z);
 
             cubes[i].transform.localPosition =
                 new Vector3(cubes[i].transform.localPosition.x,

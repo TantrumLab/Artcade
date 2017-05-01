@@ -51,8 +51,7 @@ public class SpawnPadEnemy : MonoBehaviour
         while(this.enabled)
         {
             SpawnEnemy();
-
-            yield return new WaitForSeconds(1 - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand]));
+            yield return new WaitForSeconds((1 - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
         }
     }
 
@@ -63,12 +62,12 @@ public class SpawnPadEnemy : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        int subSpawn = Random.Range(0, 8);
+        int subSpawn = Random.Range(0, 9);
 
-        subSpawn = subSpawn == m_LastSubSpawn ? ((subSpawn + 1) % m_SubSpawnPads.Length - 1) : subSpawn;
+        subSpawn = subSpawn == m_LastSubSpawn ? ((subSpawn + 1) % m_SubSpawnPads.Length) : subSpawn;
 
         GameObject enemey = Instantiate(m_EnemyPrefab, m_SubSpawnPads[subSpawn], transform.rotation);
-        enemey.GetComponent<Animator>().SetFloat("Speed", 1f);
+        enemey.GetComponent<Animator>().SetFloat("Speed", 1);
     }
     
 }
