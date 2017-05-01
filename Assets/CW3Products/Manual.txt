@@ -1,0 +1,11 @@
+The fully updated manual is here: goo.gl/jH4NiR
+
+To get quickly started:
+
+1. Drag the "Gizmos" folder to your project root.
+
+2. Check out the example scenes to see some ways these assets can be used (and read and follow the note in that folder!)
+
+3. Dig into the prefab folder and its subfolders to see all the assets available to you.
+
+4. Take advantage of material swapping and environmental blending by opening the CaveDungeonFunctions window, located at Window > CW3 > CaveDungeonToolkit
