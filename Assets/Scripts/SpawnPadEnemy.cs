@@ -37,7 +37,7 @@ public class SpawnPadEnemy : MonoBehaviour
 
         for(int i = 0; i < 9; ++i)
         {
-            m_SubSpawnPads[i] = new Vector3((i % 3f), (i/3), (0));
+            m_SubSpawnPads[i] = new Vector3((i % 3f), (i / 3), (0));
         }
 
         StartCoroutine(_ConstantSpawn());
@@ -50,7 +50,7 @@ public class SpawnPadEnemy : MonoBehaviour
 
         while(this.enabled)
         {
-            SpawnEnemy();
+            //SpawnEnemy(1, 1, 1);
             yield return new WaitForSeconds((1 - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
         }
     }
@@ -60,14 +60,21 @@ public class SpawnPadEnemy : MonoBehaviour
         //CheckSpawnOnBeat();
 	}
 
-    private void SpawnEnemy()
+    private void SpawnEnemy(float health, float speed, float spin)
     {
         int subSpawn = Random.Range(0, 9);
-
         subSpawn = subSpawn == m_LastSubSpawn ? ((subSpawn + 1) % m_SubSpawnPads.Length) : subSpawn;
 
+
         GameObject enemey = Instantiate(m_EnemyPrefab, m_SubSpawnPads[subSpawn], transform.rotation);
-        enemey.GetComponent<Animator>().SetFloat("Speed", 1);
+        enemey.GetComponent<Animator>().SetFloat("Speed", speed);
+
+        enemey.transform.localScale = new Vector3(
+            1.5f - m_AV.m_CurrentFrequencyStereo[4],
+            1.5f - m_AV.m_CurrentFrequencyStereo[4],
+            1.5f - m_AV.m_CurrentFrequencyStereo[4]);
+
+        enemey.GetComponentInChildren<Renderer>().material.color = new Color(Mathf.Sin(Time.time), Mathf.Cos(Time.time), Mathf.Tan(Time.time));
     }
     
 }
