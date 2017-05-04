@@ -37,13 +37,14 @@ public class Enemy : MonoBehaviour
     private float m_TimeAlive;
 
     public List<Transform> m_FlightPath = new List<Transform>();
-    private Transform m_NextWaypoint;
+    public Vector3 m_LastWaypoint;
 
 	void Start ()
     {
         m_TimeAlive = 0;
         m_OriginalPos = transform.position;
-	}
+        m_LastWaypoint = transform.position;
+    }
 	
 	void Update ()
     {
@@ -58,6 +59,7 @@ public class Enemy : MonoBehaviour
         m_OriginalPos += transform.forward * Time.deltaTime * m_Speed;
         transform.position = m_OriginalPos;
     }
+
     private void Orbit()
     {
         Vector3 newPos = Vector3.zero;
