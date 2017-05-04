@@ -43,6 +43,8 @@ public class Enemy : MonoBehaviour
         m_TimeAlive = 0;
         m_OriginalPos = transform.position;
 
+        m_Speed = m_Speed < 0 ? -m_Speed : m_Speed;
+
         for(int i = 0; i < m_FlightPath.Count - 1; ++i)
         {
             m_FlightPath[i].LookAt(m_FlightPath[i + 1]);
@@ -83,8 +85,7 @@ public class Enemy : MonoBehaviour
 
     private void AdjustOrientation()
     {
-        Vector3 toNext = m_FlightPath[0].position - transform.position;
-        toNext.y = m_OriginalPos.y;
+        Vector3 toNext = m_FlightPath[0].position - m_OriginalPos;
 
         transform.forward = Vector3.Lerp(transform.forward, toNext.normalized, Time.deltaTime * m_Speed);
     }
