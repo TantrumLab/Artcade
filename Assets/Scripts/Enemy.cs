@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
         set
         {
             m_Health = value;
-            if (m_Health == 0) Die();
+            if (m_Health <= 0) Die();
         }
     }
 
@@ -134,5 +134,6 @@ public class Enemy : MonoBehaviour
     private IEnumerator _Die()
     {
         yield return null;
+        GetComponent<Shattering>().Explode();
     }
 }
