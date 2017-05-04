@@ -10,19 +10,26 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Refrence to the enemy's renderer
     /// </summary>
-    Renderer m_Renderer;
+    public Renderer m_Renderer;
 
-    /// <summary>
-    /// Refrence to the enemy's animator
-    /// </summary>
-    Animator m_Animator;
-
-    Vector3 m_OriginalPos;
+    private Vector3 m_OriginalPos;
 
     /// <summary>
     /// The current health of the enemy
     /// </summary>
     private float m_Health;
+
+    public float Health
+    {
+        get { return m_Health; }
+
+        set
+        {
+            m_Health = value;
+            if (m_Health == 0) Die();
+        }
+    }
+
     /// <summary>
     /// The forward speed of the enemy
     /// </summary>
@@ -36,7 +43,27 @@ public class Enemy : MonoBehaviour
 
     private float m_TimeAlive;
 
+    private Vector3 m_PathOffset = Vector3.zero;
+
     public List<Transform> m_FlightPath = new List<Transform>();
+
+    public void SetInitValues(float health, float speed, float spin, Vector3 pathOff, List<Transform> path)
+    {
+        m_Health = health;
+        m_Speed = speed;
+        m_Spin = spin;
+        m_PathOffset = pathOff;
+
+        foreach(Transform t in path)
+        {
+            m_FlightPath.Add(t);
+        }
+
+        Vector3 color = new Vector3(health, speed, spin);
+        color.Normalize();
+
+        m_Renderer.material.color = new Color(color.x, color.y, color.z);
+    }
 
 	void Start ()
     {
@@ -44,18 +71,13 @@ public class Enemy : MonoBehaviour
         m_OriginalPos = transform.position;
 
         m_Speed = m_Speed < 0 ? -m_Speed : m_Speed;
-
-        for(int i = 0; i < m_FlightPath.Count - 1; ++i)
-        {
-            m_FlightPath[i].LookAt(m_FlightPath[i + 1]);
-        }
     }
 	
-	void Update ()
+	void FixedUpdate ()
     {
         m_TimeAlive += Time.deltaTime;
 
-        if (m_FlightPath.Count < 1)
+        if (m_FlightPath.Count < 1 || Health <= 0)
             return;
 
         MoveForward();
@@ -85,21 +107,32 @@ public class Enemy : MonoBehaviour
 
     private void AdjustOrientation()
     {
-        Vector3 toNext = m_FlightPath[0].position - m_OriginalPos;
+        Vector3 toNext = (m_FlightPath[0].position + m_PathOffset) - m_OriginalPos;
+        toNext.y = 0;
 
         transform.forward = Vector3.Lerp(transform.forward, toNext.normalized, Time.deltaTime * m_Speed);
     }
 
     private void CheckWaypoint()
     {
-        float currentDist = Vector3.Distance(m_OriginalPos, m_FlightPath[0].position);
+        float currentDist = Vector3.Distance(m_OriginalPos, m_FlightPath[0].position + m_PathOffset);
 
-        if (currentDist < 1f)
+        if (currentDist < m_PathOffset.magnitude + 1)
         {
             m_FlightPath.RemoveAt(0);
 
             if (m_FlightPath.Count > 1)
                 currentDist = Vector3.Distance(m_OriginalPos, m_FlightPath[0].position);
         }
+    }
+
+    private void Die()
+    {
+        StartCoroutine(_Die());
+    }
+
+    private IEnumerator _Die()
+    {
+        yield return null;
     }
 }
