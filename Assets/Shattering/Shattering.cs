@@ -51,8 +51,8 @@ public class Shattering : MonoBehaviour {
 	
 	public void DestructionAnimationEnded()
 	{
-		//Destroy (hSupport);   		// to destroy the cloned and shattered object
-		//Destroy (this.gameObject);	// to destroy the original object !! IF !! this script has been added to the original object
+		Destroy (hSupport);   		// to destroy the cloned and shattered object
+		Destroy (this.gameObject);	// to destroy the original object !! IF !! this script has been added to the original object
 	}
 
 
@@ -366,7 +366,7 @@ public class Shattering : MonoBehaviour {
 
 		hSupport = new GameObject ("Support_"+gameObject.name);
 		hSupport.transform.SetParent (transform, false);
-		hSupport.transform.parent = null;
+		//hSupport.transform.parent = null;
 		hSupport.transform.localScale = Vector3.one;
 		// rotation à 0 du parent afin d'appliquer correctement les normales, quelle que soit la rotation du Support
 		Quaternion RotationOriginale = transform.rotation;
