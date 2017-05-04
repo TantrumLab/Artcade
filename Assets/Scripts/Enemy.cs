@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour
     private void AdjustOrientation()
     {
         Vector3 toNext = (m_FlightPath[0].position + m_PathOffset) - m_OriginalPos;
-        toNext.y = 0;
+        //toNext.y = 0;
 
         transform.forward = Vector3.Lerp(transform.forward, toNext.normalized, Time.deltaTime * m_Speed);
     }

@@ -22,12 +22,21 @@ public class SpawnPadEnemy : MonoBehaviour
     [SerializeField, Range(-1, 1)]
     private float m_SpawnThreshold;
 
+    [SerializeField]
+    private int m_HealthBand;
+    [SerializeField]
+    private int m_SpeedBand;
+    [SerializeField]
+    private int m_SpinBand;
+
     private Vector3[] m_SubSpawnPads;
     private int m_LastSubSpawn;
 
+    public List<Transform> m_EnemyPath = new List<Transform>();
+
     private void Start ()
     {
-        this.enabled =
+        enabled =
             (m_AV != null) &&
             (m_EnemyPrefab != null) &&
             (m_InstantSpawnBand < m_AV.frequencyBands) &&
@@ -39,6 +48,11 @@ public class SpawnPadEnemy : MonoBehaviour
         {
             m_SubSpawnPads[i] = new Vector3((i % 3f), (i / 3), (0));
         }
+        
+        for (int i = 0; i < m_EnemyPath.Count - 1; ++i)
+        {
+            m_EnemyPath[i].LookAt(m_EnemyPath[i + 1]);
+        }
 
         StartCoroutine(_ConstantSpawn());
 	}
@@ -48,9 +62,15 @@ public class SpawnPadEnemy : MonoBehaviour
         yield return null;
         yield return new WaitUntil(() => m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand] >= 0.1);
 
-        while(this.enabled)
+        float health, speed, spin;
+
+        while(enabled)
         {
-            //SpawnEnemy(1, 1, 1);
+            health = 1 + (5 * m_AV.m_CurrentFrequencyStereo[m_HealthBand]);
+            speed = 3 * m_AV.m_CurrentFrequencyStereo[m_SpeedBand];
+            spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand];
+
+            SpawnEnemy(health, speed, spin);
             yield return new WaitForSeconds((1 - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
         }
     }
@@ -61,7 +81,9 @@ public class SpawnPadEnemy : MonoBehaviour
 
     private void SpawnEnemy(float health, float speed, float spin)
     {
-        
-    }
-    
+        int r = Random.Range(0, 8);
+        GameObject drone = Instantiate(m_EnemyPrefab, m_SubSpawnPads[r], transform.rotation) as GameObject;
+        drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_SubSpawnPads[r], m_EnemyPath);
+        drone.transform.localScale *= health / 5;
+    }   
 }
