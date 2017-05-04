@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
         m_Health = health;
         m_Speed = speed;
         m_Spin = spin;
-        m_PathOffset = pathOff;
+        //m_PathOffset = pathOff;
 
         foreach(Transform t in path)
         {

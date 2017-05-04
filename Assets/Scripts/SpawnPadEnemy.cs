@@ -47,6 +47,7 @@ public class SpawnPadEnemy : MonoBehaviour
         for(int i = 0; i < 9; ++i)
         {
             m_SubSpawnPads[i] = new Vector3((i % 3f), (i / 3), (0));
+            m_SubSpawnPads[i] += transform.position;
         }
         
         for (int i = 0; i < m_EnemyPath.Count - 1; ++i)
@@ -67,7 +68,7 @@ public class SpawnPadEnemy : MonoBehaviour
         while(enabled)
         {
             health = 1 + (5 * m_AV.m_CurrentFrequencyStereo[m_HealthBand]);
-            speed = 3 * m_AV.m_CurrentFrequencyStereo[m_SpeedBand];
+            speed = 7 - health;
             spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand];
 
             SpawnEnemy(health, speed, spin);
