@@ -37,21 +37,29 @@ public class Enemy : MonoBehaviour
     private float m_TimeAlive;
 
     public List<Transform> m_FlightPath = new List<Transform>();
-    public Vector3 m_LastWaypoint;
 
 	void Start ()
     {
         m_TimeAlive = 0;
         m_OriginalPos = transform.position;
-        m_LastWaypoint = transform.position;
+
+        for(int i = 0; i < m_FlightPath.Count - 1; ++i)
+        {
+            m_FlightPath[i].LookAt(m_FlightPath[i + 1]);
+        }
     }
 	
 	void Update ()
     {
         m_TimeAlive += Time.deltaTime;
 
+        if (m_FlightPath.Count < 1)
+            return;
+
         MoveForward();
         Orbit();
+        AdjustOrientation();
+        CheckWaypoint();
 	}
 
     private void MoveForward()
@@ -62,11 +70,35 @@ public class Enemy : MonoBehaviour
 
     private void Orbit()
     {
+        if (m_Spin == 0)
+            return;
+
         Vector3 newPos = Vector3.zero;
 
         newPos += transform.up * Mathf.Sin(m_TimeAlive * m_Spin);
         newPos += transform.right * Mathf.Cos(m_TimeAlive * m_Spin);
 
         transform.localPosition += newPos;
+    }
+
+    private void AdjustOrientation()
+    {
+        Vector3 toNext = m_FlightPath[0].position - transform.position;
+        toNext.y = m_OriginalPos.y;
+
+        transform.forward = Vector3.Lerp(transform.forward, toNext.normalized, Time.deltaTime * m_Speed);
+    }
+
+    private void CheckWaypoint()
+    {
+        float currentDist = Vector3.Distance(m_OriginalPos, m_FlightPath[0].position);
+
+        if (currentDist < 1f)
+        {
+            m_FlightPath.RemoveAt(0);
+
+            if (m_FlightPath.Count > 1)
+                currentDist = Vector3.Distance(m_OriginalPos, m_FlightPath[0].position);
+        }
     }
 }
