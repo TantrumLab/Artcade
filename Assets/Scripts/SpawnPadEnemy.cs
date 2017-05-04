@@ -69,7 +69,7 @@ public class SpawnPadEnemy : MonoBehaviour
         {
             health = 1 + (5 * m_AV.m_CurrentFrequencyStereo[m_HealthBand]);
             speed = 7 - health;
-            spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand];
+            spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 10;
 
             SpawnEnemy(health, speed, spin);
             yield return new WaitForSeconds((1 - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
@@ -78,6 +78,10 @@ public class SpawnPadEnemy : MonoBehaviour
 
     private void Update ()
     {
+        if(m_AV.m_DeltaFrequencyStereo[m_InstantSpawnBand] >= m_SpawnThreshold)
+        {
+            SpawnEnemy(10, 3, Random.Range(-1, 1));
+        }
 	}
 
     private void SpawnEnemy(float health, float speed, float spin)
