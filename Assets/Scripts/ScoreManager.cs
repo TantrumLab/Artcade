@@ -19,13 +19,6 @@ public class ScoreManager : MonoBehaviour
 
     public HighScore m_CurrenPlayer;
 
-
-	void Start ()
-    {
-		
-	}
-	
-
 	void Update ()
     {
 		
