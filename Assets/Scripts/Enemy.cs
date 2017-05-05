@@ -126,12 +126,12 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        StartCoroutine(_Die());
+        ScoreManager.m_CurrentScore += 15;
+        GetComponent<Shattering>().Explode();
     }
 
     private IEnumerator _Die()
     {
         yield return null;
-        GetComponent<Shattering>().Explode();
     }
 }
