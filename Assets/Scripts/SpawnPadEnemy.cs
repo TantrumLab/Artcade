@@ -81,7 +81,6 @@ public class SpawnPadEnemy : MonoBehaviour
     {
         SetVariables();
         InstantSpawn();
-
 	}
 
     private void InstantSpawn()
