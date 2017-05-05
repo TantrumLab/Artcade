@@ -42,17 +42,15 @@ public class Enemy : MonoBehaviour
     private float m_Spin;
 
     private float m_TimeAlive;
-
-    private Vector3 m_PathOffset = Vector3.zero;
+    
 
     public List<Transform> m_FlightPath = new List<Transform>();
 
-    public void SetInitValues(float health, float speed, float spin, Vector3 pathOff, List<Transform> path)
+    public void SetInitValues(float health, float speed, float spin, List<Transform> path)
     {
         m_Health = health;
         m_Speed = speed;
         m_Spin = spin;
-        //m_PathOffset = pathOff;
 
         foreach(Transform t in path)
         {
@@ -107,7 +105,7 @@ public class Enemy : MonoBehaviour
 
     private void AdjustOrientation()
     {
-        Vector3 toNext = (m_FlightPath[0].position + m_PathOffset) - m_OriginalPos;
+        Vector3 toNext = (m_FlightPath[0].position) - m_OriginalPos;
         //toNext.y = 0;
 
         transform.forward = Vector3.Lerp(transform.forward, toNext.normalized, Time.deltaTime * m_Speed);
@@ -115,9 +113,9 @@ public class Enemy : MonoBehaviour
 
     private void CheckWaypoint()
     {
-        float currentDist = Vector3.Distance(m_OriginalPos, m_FlightPath[0].position + m_PathOffset);
+        float currentDist = Vector3.Distance(m_OriginalPos, m_FlightPath[0].position);
 
-        if (currentDist < m_PathOffset.magnitude + 1)
+        if (currentDist < 1)
         {
             m_FlightPath.RemoveAt(0);
 

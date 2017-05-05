@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmissionColorToAudioBand : MonoBehaviour
+[RequireComponent(typeof(ParticleSystem))]
+public class ParticleColorToAudioBand : MonoBehaviour
 {
     [SerializeField]
     private AudioVisualization m_AV;
@@ -14,21 +15,22 @@ public class EmissionColorToAudioBand : MonoBehaviour
     private Color m_NewColor;
     private Color m_OriginalColor;
 
-    private Material m_Material;
+    private ParticleSystem.MainModule m_System;
 
     private float m_Frequency;
 
-	void Start ()
+    void Start ()
     {
-        m_Material = new Material(GetComponent<Renderer>().material);
-        GetComponent<Renderer>().material = m_Material;
-        m_OriginalColor = m_Material.GetColor("_EmissionColor");
+        m_System = GetComponent<ParticleSystem>().main;
+        m_OriginalColor = m_System.startColor.color;
 	}
 	
-
+	
 	void Update ()
     {
         m_Frequency = m_AV.m_CurrentFrequencyStereo[m_AudioBand];
-        m_Material.SetColor("_EmissionColor", Color.Lerp(m_OriginalColor, m_NewColor, m_Frequency));
-	}
+        m_System.startColor =
+            new ParticleSystem.MinMaxGradient(Color.Lerp(m_OriginalColor, m_NewColor, m_Frequency));
+
+    }
 }
