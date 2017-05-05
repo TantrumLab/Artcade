@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public Renderer m_Renderer;
 
+    public AudioSource m_AudioSource;
+
     private Vector3 m_OriginalPos;
 
     /// <summary>
@@ -25,6 +27,7 @@ public class Enemy : MonoBehaviour
 
         set
         {
+            m_AudioSource.PlayOneShot(m_AudioSource.clip, 1f);
             m_Health = value;
             if (m_Health <= 0) Die();
         }
@@ -33,16 +36,13 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// The forward speed of the enemy
     /// </summary>
-    [SerializeField]
     private float m_Speed;
     /// <summary>
     /// The speed the enemy orbits its original position
     /// </summary>
-    [SerializeField, Range(-5, 5)]
     private float m_Spin;
 
     private float m_TimeAlive;
-    
 
     public List<Transform> m_FlightPath = new List<Transform>();
 
