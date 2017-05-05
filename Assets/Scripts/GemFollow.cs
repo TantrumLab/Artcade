@@ -15,7 +15,15 @@ public class GemFollow : MonoBehaviour
         else
         {
             transform.position = Vector3.Lerp(
-                transform.position, m_Target.transform.position + m_Offset, Time.deltaTime);
+                transform.position,
+                m_Target.transform.position + 
+                    (m_Target.right * m_Offset.x
+                    + m_Target.up * m_Offset.y
+                    + m_Target.forward * m_Offset.z),
+                Time.deltaTime * 10f);
+
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation, m_Target.rotation, Time.deltaTime * 10f); 
         }
 	}
 }
