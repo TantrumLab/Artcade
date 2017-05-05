@@ -63,8 +63,12 @@ public class SpawnPadEnemy : MonoBehaviour
 
         m_MaxHealth = m_MaxHealth < 1 ? 1 : m_MaxHealth;
 
-        StartCoroutine(_ConstantSpawn());
 	}
+
+    public void StartSpawning()
+    {
+        StartCoroutine(_ConstantSpawn());
+    }
 
     private IEnumerator _ConstantSpawn()
     {
@@ -73,7 +77,12 @@ public class SpawnPadEnemy : MonoBehaviour
         while(enabled)
         {
             SpawnEnemy(m_Health, 2, m_Spin);
-            yield return new WaitForSeconds((2.0f - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
+
+            if (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand] == 0)
+                break;
+
+            else
+                yield return new WaitForSeconds((2.0f - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
         }
     }
 
