@@ -15,6 +15,9 @@ public class AudioVisualization : MonoBehaviour
     /// </summary>
     public AudioSource m_AudioSource;
 
+    [SerializeField]
+    private float m_StartSec, m_EndSec;
+
     /// <summary>
     /// Number of frequency bands the audio source will be split into.
     /// Has a floor of 6, and celing of 13
@@ -148,6 +151,8 @@ public class AudioVisualization : MonoBehaviour
 
         InitFloatArray(m_SamplesLeft, 0);
         InitFloatArray(m_SamplesRight, 0);
+
+        m_AudioSource.time = m_StartSec;
     }
 
     private void Update()
@@ -165,6 +170,8 @@ public class AudioVisualization : MonoBehaviour
         SetFrequencyDeltas(m_CurrentFrequencyStereo, m_LastFrequencyStereo, m_DeltaFrequencyStereo);
         SetFrequencyDeltas(m_CurrentFrequencyLeft, m_LastFrequencyLeft, m_DeltaFrequencyLeft);
         SetFrequencyDeltas(m_CurrentFrequencyRight, m_LastFrequencyRight, m_DeltaFrequencyRight);
+
+        CheckTimeLimit();
     }
 
 
@@ -293,6 +300,17 @@ public class AudioVisualization : MonoBehaviour
         }
     }
 
+    private void CheckTimeLimit()
+    {
+        if (m_StartSec <= m_EndSec)
+            return;
+
+        else if(m_AudioSource.time >= m_EndSec)
+        {
+            m_AudioSource.Stop();
+        }
+    }
+
     // HELPER FUNCTIONS // HELPER FUNCTIONS // HELPER FUNCTIONS // HELPER FUNCTIONS // HELPER FUNCTIONS // // HELPER FUNCTIONS // HELPER FUNCTIONS // HELPER FUNCTIONS // HELPER FUNCTIONS // HELPER FUNCTIONS // 
 
     /// <summary>
@@ -325,5 +343,14 @@ public class AudioVisualization : MonoBehaviour
         {
             array[i] = initValue;
         }
+    }
+
+    public void SetStartTime(float time)
+    {
+        m_StartSec = time;
+    }
+    public void SetEndTime(float time)
+    {
+        m_EndSec = time;
     }
 }
