@@ -20,7 +20,14 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("hit");
+        Target t = other.gameObject.GetComponent<Target>();
+        if (t != null)
+        {
+            t.GetComponent<Rigidbody>().AddForce(gameObject.GetComponent<Rigidbody>().velocity);
+
+            t.OnHit();
+        }
+
         Destroy(gameObject);
     }
 
