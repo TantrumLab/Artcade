@@ -17,15 +17,15 @@ public class Bullet : MonoBehaviour
     //{
     //    GetComponent<Rigidbody>().velocity = m_initVelocity * new Vector3(0,0,1);
     //}
-
-    private void OnTriggerEnter(Collider other)
+    
+    private void OnCollisionEnter(Collision other)
     {
-        Target t = other.gameObject.GetComponent<Target>();
-        if (t != null)
+        Enemy e = other.gameObject.GetComponent<Enemy>();
+        if (e != null)
         {
-            t.GetComponent<Rigidbody>().AddForce(gameObject.GetComponent<Rigidbody>().velocity);
+            e.GetComponent<Rigidbody>().AddForce(gameObject.GetComponent<Rigidbody>().velocity);
 
-            t.OnHit();
+            e.Health -= 1;
         }
 
         Destroy(gameObject);

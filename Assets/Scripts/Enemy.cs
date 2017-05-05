@@ -126,7 +126,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        ScoreManager.m_CurrentScore += 15;
+        ScoreCard.instance.TargetScore += 15;
         GetComponent<Shattering>().Explode();
     }
 

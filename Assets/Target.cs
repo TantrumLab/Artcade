@@ -7,7 +7,7 @@ public class Target : MonoBehaviour
 {
     [SerializeField] UnityEvent m_onHit;
 
-    public void OnHit()
+    private void OnTriggerEnter(Collider other)
     {
         m_onHit.Invoke();
     }
