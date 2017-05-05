@@ -68,8 +68,8 @@ public class SpawnPadEnemy : MonoBehaviour
         while(enabled)
         {
             health = 1 + (5 * m_AV.m_CurrentFrequencyStereo[m_HealthBand]);
-            speed = 7 - health;
-            spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand];
+            speed = 1 + (5 - health);
+            spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 20;
 
             SpawnEnemy(health, speed, spin);
             yield return new WaitForSeconds((1 - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
@@ -78,13 +78,17 @@ public class SpawnPadEnemy : MonoBehaviour
 
     private void Update ()
     {
+        if(m_AV.m_DeltaFrequencyStereo[m_InstantSpawnBand] >= m_SpawnThreshold)
+        {
+            SpawnEnemy(10, 3, Random.Range(-1, 1));
+        }
 	}
 
     private void SpawnEnemy(float health, float speed, float spin)
     {
         int r = Random.Range(0, 8);
         GameObject drone = Instantiate(m_EnemyPrefab, m_SubSpawnPads[r], transform.rotation) as GameObject;
-        drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_SubSpawnPads[r], m_EnemyPath);
+        drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_EnemyPath);
         drone.transform.localScale *= health / 5;
     }   
 }
