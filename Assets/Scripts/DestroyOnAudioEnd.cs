@@ -13,7 +13,7 @@ public class DestroyOnAudioEnd : MonoBehaviour
     [SerializeField]
     private int m_ClipRarety;
 	// Use this for initialization
-	void Start ()
+	IEnumerator Start ()
     {
         m_AudioSource = GetComponent<AudioSource>();
 
@@ -22,18 +22,13 @@ public class DestroyOnAudioEnd : MonoBehaviour
             m_AudioSource.clip = m_SecreteClip;
         }
 
-        m_AudioSource.playOnAwake = true;
         m_AudioSource.loop = false;
 
+        m_AudioSource.Play();
 
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	    if(!m_AudioSource.isPlaying)
-        {
-            Destroy(gameObject);
-        }
+        yield return new WaitUntil(() => m_AudioSource.isPlaying);
+        yield return new WaitWhile(() => m_AudioSource.isPlaying);
+
+        Destroy(gameObject);
 	}
 }
