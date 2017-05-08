@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
 
     public GameObject m_ExplosionPrefab;
 
+    public GameObject m_Projectile;
+
     private Vector3 m_OriginalPos;
 
     /// <summary>
@@ -71,6 +73,8 @@ public class Enemy : MonoBehaviour
         m_OriginalPos = transform.position;
 
         m_Speed = m_Speed < 0 ? -m_Speed : m_Speed;
+
+        StartCoroutine(ShootPlayer());
     }
 	
 	void FixedUpdate ()
@@ -128,7 +132,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        ScoreCard.instance.TargetScore += Mathf.Clamp((30 - (int)m_TimeAlive), 0, 30);
+        ScoreCard.instance.TargetScore += 15;
         Instantiate(m_ExplosionPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
@@ -136,5 +140,29 @@ public class Enemy : MonoBehaviour
     private IEnumerator _Die()
     {
         yield return null;
+    }
+
+    private IEnumerator ShootPlayer()
+    {
+        yield return new WaitForSeconds(5);
+
+        while(gameObject.activeSelf)
+        {
+            Vector3 toPlayer = FindObjectOfType<PlayerBody>().transform.position - transform.position;
+
+            GameObject bullet = Instantiate(
+                    m_Projectile,
+                    transform.position + toPlayer.normalized,
+                    transform.rotation) as GameObject;
+
+            bullet.transform.LookAt(FindObjectOfType<PlayerBody>().transform);
+
+            float error = 0.1f;
+
+            bullet.GetComponent<EnemyBullet>().SetInitValues(10f, 10f, bullet.transform.forward +
+                new Vector3(Random.Range(-error, error), Random.Range(-error, error), Random.Range(-error, error)));
+
+            yield return new WaitForSeconds(1f);
+        }
     }
 }
