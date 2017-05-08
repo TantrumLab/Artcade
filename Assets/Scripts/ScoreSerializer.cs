@@ -18,8 +18,8 @@ public class ScoreSerializer : MonoBehaviour
     }
 }
 
-public struct Score
-{
-    string name;
-    int score;
-}
+//public struct Score
+//{
+//    string name;
+//    int score;
+//}
