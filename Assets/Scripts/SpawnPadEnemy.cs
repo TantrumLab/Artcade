@@ -77,7 +77,7 @@ public class SpawnPadEnemy : MonoBehaviour
         while(enabled)
         {
             SpawnEnemy(m_Health, 2, m_Spin);
-            yield return new WaitForSeconds((2.0f - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
+            yield return new WaitForSeconds((1.0f - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
         }
     }
 
