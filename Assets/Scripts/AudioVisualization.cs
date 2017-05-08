@@ -302,7 +302,7 @@ public class AudioVisualization : MonoBehaviour
 
     private void CheckTimeLimit()
     {
-        if (m_StartSec <= m_EndSec)
+        if (m_StartSec >= m_EndSec)
             return;
 
         else if(m_AudioSource.time >= m_EndSec)
