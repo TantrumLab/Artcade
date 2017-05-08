@@ -7,6 +7,6 @@ public class PlayerBody : MonoBehaviour, Shootable
 {
     public void OnShot()
     {
-        ScoreCard.instance.TargetScore -= 10;
+        ScoreCard.instance.ActualScore -= 10;
     }
 }

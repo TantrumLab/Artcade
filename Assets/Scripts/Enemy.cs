@@ -132,7 +132,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        ScoreCard.instance.TargetScore += 15;
+        ScoreCard.instance.ActualScore += 15;
         Instantiate(m_ExplosionPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
@@ -157,7 +157,7 @@ public class Enemy : MonoBehaviour
 
             bullet.transform.LookAt(FindObjectOfType<PlayerBody>().transform);
 
-            float error = 0.01f;
+            float error = 0.1f;
 
             bullet.GetComponent<EnemyBullet>().SetInitValues(10f, 10f, bullet.transform.forward +
                 new Vector3(Random.Range(-error, error), Random.Range(-error, error), Random.Range(-error, error)));
