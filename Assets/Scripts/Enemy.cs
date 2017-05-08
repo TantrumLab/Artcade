@@ -157,7 +157,7 @@ public class Enemy : MonoBehaviour
 
             bullet.transform.LookAt(FindObjectOfType<PlayerBody>().transform);
 
-            float error = 0.1f;
+            float error = 0.01f;
 
             bullet.GetComponent<EnemyBullet>().SetInitValues(10f, 10f, bullet.transform.forward +
                 new Vector3(Random.Range(-error, error), Random.Range(-error, error), Random.Range(-error, error)));

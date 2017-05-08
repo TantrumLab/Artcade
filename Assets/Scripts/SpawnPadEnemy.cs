@@ -78,6 +78,9 @@ public class SpawnPadEnemy : MonoBehaviour
         {
             SpawnEnemy(m_Health, 2, m_Spin);
             yield return new WaitForSeconds((1.0f - (m_AV.m_CurrentFrequencyStereo[m_SpawnRateBand])));
+
+            if (!m_AV.m_AudioSource.isPlaying)
+                break;
         }
     }
 
