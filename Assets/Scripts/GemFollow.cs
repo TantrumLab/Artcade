@@ -6,24 +6,42 @@ public class GemFollow : MonoBehaviour
 {
     public Transform m_Target;
     public Vector3 m_Offset;
+    public float m_FollowSpeed;
 	
 	// Update is called once per frame
 	void Update ()
     {
         if (m_Target == null)
-            Destroy(gameObject);
+        {
+            ShrinkOut();
+        }
         else
         {
-            transform.position = Vector3.Lerp(
-                transform.position,
-                m_Target.transform.position + 
-                    (m_Target.right * m_Offset.x
-                    + m_Target.up * m_Offset.y
-                    + m_Target.forward * m_Offset.z),
-                Time.deltaTime * 10f);
-
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation, m_Target.rotation, Time.deltaTime * 10f); 
+            FollowTransform(m_Target, m_Offset, m_FollowSpeed);
         }
 	}
+
+    private void FollowTransform(Transform target, Vector3 posOffset, float speed)
+    {
+        transform.position = Vector3.Lerp(
+            transform.position,
+            target.transform.position + 
+                (target.right * posOffset.x
+                + target.up * posOffset.y
+                + target.forward * posOffset.z),
+            Time.deltaTime * speed);
+
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation, target.rotation, Time.deltaTime * speed); 
+    }
+
+    private void ShrinkOut()
+    {
+        transform.localScale -= (Vector3.one * Time.deltaTime);
+
+        if (transform.localScale.magnitude < 0.1f)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
