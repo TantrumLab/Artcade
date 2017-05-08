@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        ScoreCard.instance.TargetScore += 15;
+        ScoreCard.instance.TargetScore += Mathf.Clamp((30 - (int)m_TimeAlive), 0, 30);
         Instantiate(m_ExplosionPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
