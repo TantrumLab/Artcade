@@ -5,8 +5,18 @@ using UnityEngine.UI;
 
 public class ScoreCard : MonoBehaviour
 {
-    int m_currentScore = 0;
-    int m_targetScore = 0;
+    #region Variable
+    private int m_SongIndex = 0; // Used to identify player pref for comparison
+
+    private int[] m_song1HighScores;
+    private int[] m_song2HighScores;
+    private int[] m_song3HighScores;
+
+    int m_targetHighscore = 0;      // Highest score for the selected song
+    int m_displayedScore = 0;       // Score displayed to the player through the m_scoreText
+    int m_actualScore = 0;          // The real score
+
+    [SerializeField] Text m_scoreText;
 
     public static ScoreCard instance
     {
@@ -16,55 +26,42 @@ public class ScoreCard : MonoBehaviour
         }
     }
 
-    [SerializeField] Text m_scoreText;
-
-    public int TargetScore
+    public int ActualScore      // public field
     {
         set
         {
-            m_targetScore = value;
+            m_actualScore = value;
 
-            if (m_currentScore != m_targetScore)
-                StartCoroutine(ScoreCick());
+            if (m_displayedScore != m_actualScore)
+                StartCoroutine(ScoreTick());
         }
-        get { return m_targetScore; }
+        get { return m_actualScore; }
     }
 
-    int Score
+    int DisplayScore
     {
         set
         {
-            m_currentScore = value;
-            m_scoreText.text = m_currentScore.ToString();
+            m_displayedScore = value;
+            m_scoreText.text = m_displayedScore.ToString();
         }
     }
-
-    //[ContextMenu("Tick Up")]
-    //public void TestTickUp()
-    //{
-    //    TargetScore += 15;
-    //}
-
-    //[ContextMenu("Tick Down")]
-    //public void TestDownUp()
-    //{
-    //    TargetScore -= 15;
-    //}
+    #endregion
 
     public void ScoreDelta(int a_deltaScore)
     {
-        TargetScore += a_deltaScore;
+        ActualScore += a_deltaScore;
     }
 
-    IEnumerator ScoreCick()
+    IEnumerator ScoreTick()
     {
-        while(m_currentScore != m_targetScore)
+        while(m_displayedScore != m_actualScore)
         {
-            if (m_currentScore < m_targetScore)
-                Score = m_currentScore + 1;
+            if (m_displayedScore < m_actualScore)
+                DisplayScore = m_displayedScore + 1;
 
             else
-                Score = m_currentScore - 1;
+                DisplayScore = m_displayedScore - 1;
 
             yield return null;
         }
