@@ -108,6 +108,6 @@ public class SpawnPadEnemy : MonoBehaviour
         int r = Random.Range(0, 8);
         GameObject drone = Instantiate(m_EnemyPrefab, m_SubSpawnPads[r], transform.rotation) as GameObject;
         drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_EnemyPath);
-        drone.transform.localScale *= 0.5f + (health / m_MaxHealth);
+        drone.transform.localScale *= 0.25f + (health / m_MaxHealth);
     }   
 }

@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
 
     public AudioSource m_AudioSource;
 
+    public GameObject m_ExplosionPrefab;
+
     private Vector3 m_OriginalPos;
 
     /// <summary>
@@ -126,8 +128,9 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        ScoreCard.instance.TargetScore += 15;
-        GetComponent<Shattering>().Explode();
+        ScoreCard.instance.TargetScore += Mathf.Clamp((30 - (int)m_TimeAlive), 0, 30);
+        Instantiate(m_ExplosionPrefab, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 
     private IEnumerator _Die()
