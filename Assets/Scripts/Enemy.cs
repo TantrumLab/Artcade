@@ -144,7 +144,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator ShootPlayer()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(5 + Random.Range(0, 5));
 
         while(gameObject.activeSelf)
         {
@@ -162,7 +162,7 @@ public class Enemy : MonoBehaviour
             bullet.GetComponent<EnemyBullet>().SetInitValues(10f, 10f, bullet.transform.forward +
                 new Vector3(Random.Range(-error, error), Random.Range(-error, error), Random.Range(-error, error)));
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(Random.Range(7, 21));
         }
     }
 }
