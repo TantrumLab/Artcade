@@ -11,12 +11,12 @@ public class ScaleToAudioBand : MonoBehaviour
     private int m_AudioBand;
 
     [SerializeField]
-    float m_MaxScale;
-
-    private Vector3 m_OriginalScale;
+    private float m_MaxScale;
 
     [SerializeField]
     private bool m_ScaleX, m_ScaleY, m_ScaleZ, m_LeftChannel, m_RightChannel;
+
+    private Vector3 m_OriginalScale;
 
     private float m_Frequency;
 
