@@ -95,7 +95,7 @@ public class SpawnPadEnemy : MonoBehaviour
     {
         if ((m_AV.m_DeltaFrequencyStereo[m_InstantSpawnBand]) >= m_SpawnThreshold)
         {
-            SpawnEnemy(m_Health + 1, m_Speed * 1.5f, m_Spin / 2);
+            SpawnEnemy(m_Health, m_Speed, m_Spin);
             print("Spawn");
         }
     }
@@ -104,7 +104,7 @@ public class SpawnPadEnemy : MonoBehaviour
     {
         m_Health = 1 + ((m_MaxHealth - 1) * m_AV.m_CurrentFrequencyStereo[m_HealthBand]);
         m_Speed = 1 + (m_AV.m_CurrentFrequencyStereo[m_SpeedBand]);
-        m_Spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 10;
+        m_Spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 12;
     }
 
     private void SpawnEnemy(float health, float speed, float spin)
