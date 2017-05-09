@@ -8,7 +8,7 @@ using System;
 public class ScoreCard : MonoBehaviour
 {
     #region Variables
-    private int m_SongIndex = 1; // Used to identify player pref for comparison
+    [SerializeField] private int m_SongIndex = 0; // Used to identify player pref for comparison
     Dictionary<int, List<Score>> m_SongScores = new Dictionary<int, List<Score>>();
 
     int m_targetHighscore = 0;      // Highest score for the selected song
@@ -16,9 +16,7 @@ public class ScoreCard : MonoBehaviour
     int m_actualScore = 0;          // The real score
 
     [SerializeField] Text m_scoreText;
-    [SerializeField] Text m_score1Text;
-    [SerializeField] Text m_score2Text;
-    [SerializeField] Text m_score3Text;
+    [SerializeField] Text[] m_Top10Text;
 
     public static ScoreCard instance
     {
@@ -65,14 +63,36 @@ public class ScoreCard : MonoBehaviour
         ActualScore += a_deltaScore;
     }
 
-    // debug Function and var
-    int test = 5;
-    [ContextMenu("Addscore")]
-    public void TestScorePush()
+    public void StartNewRound(int index)
     {
-        AddScore("Daniel", test);
-        test += 5;
+        m_SongIndex = index;
+
+        DisplayScore = 0;
+        ActualScore = 0;
     }
+
+    //[ContextMenu("print")]
+    public void UpdateScores()
+    {
+        if (m_SongIndex < 0)
+            return;
+
+        string t = "";
+        foreach (Score s in m_SongScores[m_SongIndex])
+        {
+            t += s.name + "\t\t" + s.score + "\n";
+        }
+        m_Top10Text[m_SongIndex-1].text = t;
+    }
+
+    // debug Function and var
+    //int test = 5;
+    //[ContextMenu("Addscore")]
+    //public void TestScorePush()
+    //{
+    //    AddScore("Daniel", test);
+    //    test += 5;
+    //}
     
     public void AddScore(Score a_score)
     {
@@ -134,7 +154,6 @@ public class ScoreCard : MonoBehaviour
 
     }
 }
-
 
 public struct Score : IComparer <Score>
 {
