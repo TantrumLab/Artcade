@@ -1,0 +1,152 @@
+fileFormatVersion: 2
+guid: c95c0ed98f7ae6348a612b48831e6c87
+timeCreated: 1486548693
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Cave_Corridor_3Way
+    100002: Cave_Corridor_4Way
+    100004: Cave_Corridor_Curve
+    100006: Cave_Corridor_Long
+    100008: Cave_Corridor_Short
+    100010: Cave_Corridor_Up_Down
+    100012: Cave_Room_1
+    100014: Cave_Room_2
+    100016: Cave_Room_3
+    100018: Cave_Room_4
+    100020: Cave_Room_5
+    100022: Cave_Room_6
+    100024: Cave_Room_7
+    100026: Cave_Room_8
+    100028: Cave_Room_9
+    100030: //RootNode
+    400000: Cave_Corridor_3Way
+    400002: Cave_Corridor_4Way
+    400004: Cave_Corridor_Curve
+    400006: Cave_Corridor_Long
+    400008: Cave_Corridor_Short
+    400010: Cave_Corridor_Up_Down
+    400012: Cave_Room_1
+    400014: Cave_Room_2
+    400016: Cave_Room_3
+    400018: Cave_Room_4
+    400020: Cave_Room_5
+    400022: Cave_Room_6
+    400024: Cave_Room_7
+    400026: Cave_Room_8
+    400028: Cave_Room_9
+    400030: //RootNode
+    2300000: Cave_Corridor_3Way
+    2300002: Cave_Corridor_4Way
+    2300004: Cave_Corridor_Curve
+    2300006: Cave_Corridor_Long
+    2300008: Cave_Corridor_Short
+    2300010: Cave_Corridor_Up_Down
+    2300012: Cave_Room_1
+    2300014: Cave_Room_2
+    2300016: Cave_Room_3
+    2300018: Cave_Room_4
+    2300020: Cave_Room_5
+    2300022: Cave_Room_6
+    2300024: Cave_Room_7
+    2300026: Cave_Room_8
+    2300028: Cave_Room_9
+    3300000: Cave_Corridor_3Way
+    3300002: Cave_Corridor_4Way
+    3300004: Cave_Corridor_Curve
+    3300006: Cave_Corridor_Long
+    3300008: Cave_Corridor_Short
+    3300010: Cave_Corridor_Up_Down
+    3300012: Cave_Room_1
+    3300014: Cave_Room_2
+    3300016: Cave_Room_3
+    3300018: Cave_Room_4
+    3300020: Cave_Room_5
+    3300022: Cave_Room_6
+    3300024: Cave_Room_7
+    3300026: Cave_Room_8
+    3300028: Cave_Room_9
+    4300000: Cave_Room_9
+    4300002: Cave_Room_8
+    4300004: Cave_Room_7
+    4300006: Cave_Room_6
+    4300008: Cave_Room_5
+    4300010: Cave_Room_4
+    4300012: Cave_Room_3
+    4300014: Cave_Room_2
+    4300016: Cave_Room_1
+    4300018: Cave_Corridor_Up_Down
+    4300020: Cave_Corridor_Curve
+    4300022: Cave_Corridor_Long
+    4300024: Cave_Corridor_Short
+    4300026: Cave_Corridor_4Way
+    4300028: Cave_Corridor_3Way
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.5
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

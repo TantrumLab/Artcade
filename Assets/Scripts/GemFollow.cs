@@ -25,7 +25,7 @@ public class GemFollow : MonoBehaviour
     {
         transform.position = Vector3.Lerp(
             transform.position,
-            target.transform.position + 
+            target.position + 
                 (target.right * posOffset.x
                 + target.up * posOffset.y
                 + target.forward * posOffset.z),
@@ -39,7 +39,7 @@ public class GemFollow : MonoBehaviour
     {
         transform.localScale -= (Vector3.one * Time.deltaTime);
 
-        if (transform.localScale.magnitude < 0.1f)
+        if (transform.localScale.x < 0.1f)
         {
             Destroy(gameObject);
         }
