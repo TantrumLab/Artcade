@@ -65,6 +65,7 @@ public class SpawnPadEnemy : MonoBehaviour
 
 	}
 
+    [ContextMenu("Begin")]
     public void StartSpawning()
     {
         StartCoroutine(_ConstantSpawn());

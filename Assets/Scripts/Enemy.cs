@@ -148,14 +148,25 @@ public class Enemy : MonoBehaviour
 
         while(gameObject.activeSelf)
         {
-            Vector3 toPlayer = FindObjectOfType<PlayerBody>().transform.position - transform.position;
+            GameObject player = FindObjectOfType<PlayerBody>().gameObject;
+
+            Vector3 toPlayer = player.transform.position - transform.position;
+
+            RaycastHit rayHit;
+
+            yield return new WaitForFixedUpdate();
+
+            if (!Physics.Raycast(transform.position, toPlayer, out rayHit))
+                continue;
+            else if (rayHit.transform.gameObject != player)
+                 continue;
 
             GameObject bullet = Instantiate(
                     m_Projectile,
                     transform.position + toPlayer.normalized,
                     transform.rotation) as GameObject;
 
-            bullet.transform.LookAt(FindObjectOfType<PlayerBody>().transform);
+            bullet.transform.LookAt(player.transform);
 
             float error = 0.1f;
 
