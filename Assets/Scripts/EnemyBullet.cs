@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyBullet : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject m_ExplosionSFXPrefab;
+
     private float m_Speed;
     private float m_LifeTime;
     private Vector3 m_Direction;
@@ -29,6 +32,7 @@ public class EnemyBullet : MonoBehaviour
     {
         m_LifeTime -= Time.deltaTime;
         if (m_LifeTime <= 0) Destroy(gameObject);
+        else transform.Rotate(0, 0, Time.deltaTime * 360);
 	}
 
     void OnCollisionEnter(Collision collision)
@@ -41,6 +45,11 @@ public class EnemyBullet : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        Instantiate(m_ExplosionSFXPrefab, transform.position, transform.rotation);
     }
 }
 
