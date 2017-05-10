@@ -17,6 +17,7 @@ public class ScaleToAudioBand : MonoBehaviour
     private bool m_ScaleX, m_ScaleY, m_ScaleZ, m_LeftChannel, m_RightChannel;
 
     private Vector3 m_OriginalScale;
+    private Vector3 m_NewScale;
 
     private float m_Frequency;
 
@@ -28,8 +29,12 @@ public class ScaleToAudioBand : MonoBehaviour
     void Update ()
     {
         GetAudioBandDelta();
-        transform.localScale = GetNewLocalScale();
-	}
+        m_NewScale = GetNewLocalScale();
+
+        transform.localScale =
+            Vector3.Lerp(transform.localScale, m_NewScale,
+            m_NewScale.magnitude >= transform.localScale.magnitude ? 0.9f : 0.1f);
+    }
 
     private void GetAudioBandDelta()
     {

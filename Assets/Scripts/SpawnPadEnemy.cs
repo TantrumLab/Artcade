@@ -85,7 +85,7 @@ public class SpawnPadEnemy : MonoBehaviour
         }
     }
 
-    private void Update ()
+    private void FixedUpdate ()
     {
         SetVariables();
         InstantSpawn();
@@ -103,8 +103,8 @@ public class SpawnPadEnemy : MonoBehaviour
     private void SetVariables()
     {
         m_Health = 1 + ((m_MaxHealth - 1) * m_AV.m_CurrentFrequencyStereo[m_HealthBand]);
-        m_Speed = 1 + (m_AV.m_CurrentFrequencyStereo[m_SpeedBand]);
-        m_Spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 12;
+        m_Speed = 2 + (m_AV.m_CurrentFrequencyStereo[m_SpeedBand]);
+        m_Spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 10;
     }
 
     private void SpawnEnemy(float health, float speed, float spin)
