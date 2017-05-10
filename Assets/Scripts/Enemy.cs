@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
 
     private Vector3 m_OriginalPos;
 
+    private AudioVisualization m_AV;
+
     /// <summary>
     /// The current health of the enemy
     /// </summary>
@@ -74,6 +76,8 @@ public class Enemy : MonoBehaviour
 
         m_Speed = m_Speed < 0 ? -m_Speed : m_Speed;
 
+        m_AV = FindObjectOfType<AudioVisualization>();
+
         StartCoroutine(ShootPlayer());
     }
 	
@@ -88,6 +92,7 @@ public class Enemy : MonoBehaviour
         Orbit();
         AdjustOrientation();
         CheckWaypoint();
+        CheckGameOver();
 	}
 
     private void MoveForward()
@@ -132,14 +137,21 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        ScoreCard.instance.ActualScore += 15;
+        ScoreCard.instance.ActualScore += m_Health <= 0 ? 15 : 0;
         Instantiate(m_ExplosionPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
-    private IEnumerator _Die()
+    private void CheckGameOver()
     {
-        yield return null;
+        if (m_AV.m_AudioSource.isPlaying) return;
+        else StartCoroutine(_SelfDestruct());
+    }
+
+    private IEnumerator _SelfDestruct()
+    {
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
 
     private IEnumerator ShootPlayer()

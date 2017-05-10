@@ -40,7 +40,7 @@ public class SpawnPadEnemy : MonoBehaviour
     public List<Transform> m_EnemyPath = new List<Transform>();
 
 
-    private void Start ()
+    private IEnumerator Start ()
     {
         enabled =
             (m_AV != null) &&
@@ -63,6 +63,15 @@ public class SpawnPadEnemy : MonoBehaviour
 
         m_MaxHealth = m_MaxHealth < 1 ? 1 : m_MaxHealth;
 
+        yield return null;
+
+        while(gameObject.activeSelf)
+        {
+            SetVariables();
+            InstantSpawn();
+
+            yield return new WaitForSeconds(0.15f);
+        }
 	}
 
     [ContextMenu("Begin")]
@@ -85,15 +94,13 @@ public class SpawnPadEnemy : MonoBehaviour
         }
     }
 
-    private void Update ()
+    private void FixedUpdate ()
     {
-        SetVariables();
-        InstantSpawn();
 	}
 
     private void InstantSpawn()
     {
-        if ((m_AV.m_DeltaFrequencyStereo[m_InstantSpawnBand]) >= m_SpawnThreshold)
+        if ((m_AV.m_CurrentFrequencyStereo[m_InstantSpawnBand]) >= m_SpawnThreshold)
         {
             SpawnEnemy(m_Health, m_Speed, m_Spin);
             print("Spawn");
@@ -103,8 +110,8 @@ public class SpawnPadEnemy : MonoBehaviour
     private void SetVariables()
     {
         m_Health = 1 + ((m_MaxHealth - 1) * m_AV.m_CurrentFrequencyStereo[m_HealthBand]);
-        m_Speed = 1 + (m_AV.m_CurrentFrequencyStereo[m_SpeedBand]);
-        m_Spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 12;
+        m_Speed = 2 + (m_AV.m_CurrentFrequencyStereo[m_SpeedBand]);
+        m_Spin = m_AV.m_DeltaFrequencyStereo[m_SpinBand] * 10;
     }
 
     private void SpawnEnemy(float health, float speed, float spin)

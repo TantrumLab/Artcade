@@ -25,6 +25,11 @@ public class AudioVisualization : MonoBehaviour
     [SerializeField]
     private int m_NumberOfFrequencyBands;
 
+    [SerializeField]
+    private UnityEngine.Events.UnityEvent m_OnPlay;
+    [SerializeField]
+    private UnityEngine.Events.UnityEvent m_OnEnd;
+
     /// <summary>
     /// The total number of audio sambles from the connect AudioSource (Left).
     /// Will be equal to 2^m_NumberOfFrequenceBands
@@ -153,6 +158,8 @@ public class AudioVisualization : MonoBehaviour
         InitFloatArray(m_SamplesRight, 0);
 
         m_AudioSource.time = m_StartSec;
+        m_EndSec = m_StartSec >= m_EndSec ? m_AudioSource.clip.length : m_EndSec;
+        m_OnPlay.Invoke();
     }
 
     private void Update()
@@ -302,12 +309,10 @@ public class AudioVisualization : MonoBehaviour
 
     private void CheckTimeLimit()
     {
-        if (m_StartSec >= m_EndSec)
-            return;
-
-        else if(m_AudioSource.time >= m_EndSec)
+        if(m_AudioSource.time >= m_EndSec)
         {
             m_AudioSource.Stop();
+            m_OnEnd.Invoke();
         }
     }
 
