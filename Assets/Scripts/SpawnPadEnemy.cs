@@ -40,7 +40,7 @@ public class SpawnPadEnemy : MonoBehaviour
     public List<Transform> m_EnemyPath = new List<Transform>();
 
 
-    private void Start ()
+    private IEnumerator Start ()
     {
         enabled =
             (m_AV != null) &&
@@ -63,6 +63,15 @@ public class SpawnPadEnemy : MonoBehaviour
 
         m_MaxHealth = m_MaxHealth < 1 ? 1 : m_MaxHealth;
 
+        yield return null;
+
+        while(gameObject.activeSelf)
+        {
+            SetVariables();
+            InstantSpawn();
+
+            yield return new WaitForSeconds(0.15f);
+        }
 	}
 
     [ContextMenu("Begin")]
@@ -87,13 +96,11 @@ public class SpawnPadEnemy : MonoBehaviour
 
     private void FixedUpdate ()
     {
-        SetVariables();
-        InstantSpawn();
 	}
 
     private void InstantSpawn()
     {
-        if ((m_AV.m_DeltaFrequencyStereo[m_InstantSpawnBand]) >= m_SpawnThreshold)
+        if ((m_AV.m_CurrentFrequencyStereo[m_InstantSpawnBand]) >= m_SpawnThreshold)
         {
             SpawnEnemy(m_Health, m_Speed, m_Spin);
             print("Spawn");
