@@ -44,12 +44,13 @@ public class EnemyBullet : MonoBehaviour
             other.OnShot();
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         Instantiate(m_ExplosionSFXPrefab, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }
 
