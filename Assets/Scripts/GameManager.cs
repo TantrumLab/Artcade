@@ -42,11 +42,15 @@ public class GameManager : MonoBehaviour
         m_audioVisualizer.clip = m_levelSongs[index];
         m_audioVisualizer.Play();
 
+        foreach (GameObject g in m_hideOnPlay)
+            g.SetActive(false);
+
         m_onPlay.Invoke();
     }
 
     void EndGame()
     {
+        m_scoreCard.SelfAddScore();
         // Apply scores
         m_scoreCard.UpdateScores();
 
@@ -55,8 +59,11 @@ public class GameManager : MonoBehaviour
             g.Ceasefire();
 
         // Clear enemies
-        
+
         // Trigger text indicate round is complete
+
+        foreach (GameObject g in m_hideOnPlay)
+            g.SetActive(true);
     }
 
 }

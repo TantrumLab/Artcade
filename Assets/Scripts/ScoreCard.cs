@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using System;
 
 public class ScoreCard : MonoBehaviour
 {
@@ -14,6 +13,8 @@ public class ScoreCard : MonoBehaviour
     int m_targetHighscore = 0;      // Highest score for the selected song
     int m_displayedScore = 0;       // Score displayed to the player through the m_scoreText
     int m_actualScore = 0;          // The real score
+
+    [SerializeField] InputField m_playerName;
 
     [SerializeField] Text m_scoreText;
     [SerializeField] Text[] m_Top10Text;
@@ -66,23 +67,27 @@ public class ScoreCard : MonoBehaviour
     public void StartNewRound(int index)
     {
         m_SongIndex = index;
+    }
 
-        DisplayScore = 0;
-        ActualScore = 0;
+    public void SelfAddScore()
+    {
+        AddScore(m_playerName.text, ActualScore);
     }
 
     //[ContextMenu("print")]
     public void UpdateScores()
     {
-        if (m_SongIndex < 0)
-            return;
+        m_playerName.text = null;
 
         string t = "";
         foreach (Score s in m_SongScores[m_SongIndex])
         {
             t += s.name + "\t\t" + s.score + "\n";
         }
-        m_Top10Text[m_SongIndex-1].text = t;
+        m_Top10Text[m_SongIndex].text = t;
+
+        DisplayScore = 0;
+        ActualScore = 0;
     }
 
     // debug Function and var
