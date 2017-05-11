@@ -17,6 +17,12 @@ public class DestroyOnAudioEnd : MonoBehaviour
     {
         m_AudioSource = GetComponent<AudioSource>();
 
+        if(m_AudioSource.enabled == false)
+        {
+            yield return new WaitForSeconds(m_AudioSource.clip.length);
+            Destroy(gameObject);
+        }
+
         if (Random.Range(0, m_ClipRarety) == 0)
         {
             m_AudioSource.clip = m_SecreteClip;
