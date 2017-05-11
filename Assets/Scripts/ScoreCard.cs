@@ -19,7 +19,7 @@ public class ScoreCard : MonoBehaviour
     [SerializeField] Text m_scoreText;
     [SerializeField] Text[] m_Top10Text;
 
-    public bool m_canScore = false;
+    private bool m_canScore = false;
 
     public void CanScore(bool b)
     {
