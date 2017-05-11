@@ -115,9 +115,9 @@ public class AudioVisualization : MonoBehaviour
         m_CurrentFrequencyLeft = new float[m_NumberOfFrequencyBands];
         m_CurrentFrequencyRight = new float[m_NumberOfFrequencyBands];
 
-        InitFloatArray(m_CurrentFrequencyStereo, 0.01f);
-        InitFloatArray(m_CurrentFrequencyLeft, 0.01f);
-        InitFloatArray(m_CurrentFrequencyRight, 0.01f);
+        //InitFloatArray(m_CurrentFrequencyStereo, 0.01f);
+        //InitFloatArray(m_CurrentFrequencyLeft, 0.01f);
+        //InitFloatArray(m_CurrentFrequencyRight, 0.01f);
 
 
         // Creates the empty arrays for the last value of the frequencies
@@ -125,9 +125,9 @@ public class AudioVisualization : MonoBehaviour
         m_LastFrequencyLeft = new float[m_NumberOfFrequencyBands];
         m_LastFrequencyRight = new float[m_NumberOfFrequencyBands];
 
-        InitFloatArray(m_LastFrequencyStereo, 0);
-        InitFloatArray(m_LastFrequencyLeft, 0);
-        InitFloatArray(m_LastFrequencyRight, 0);
+        //InitFloatArray(m_LastFrequencyStereo, 0);
+        //InitFloatArray(m_LastFrequencyLeft, 0);
+        //InitFloatArray(m_LastFrequencyRight, 0);
 
 
         // Creates the empty arrays for the changes in frequency
@@ -135,9 +135,9 @@ public class AudioVisualization : MonoBehaviour
         m_DeltaFrequencyLeft = new float[m_NumberOfFrequencyBands];
         m_DeltaFrequencyRight = new float[m_NumberOfFrequencyBands];
 
-        InitFloatArray(m_DeltaFrequencyStereo, 0.001f);
-        InitFloatArray(m_DeltaFrequencyLeft, 0.001f);
-        InitFloatArray(m_DeltaFrequencyRight, 0.001f);
+        //InitFloatArray(m_DeltaFrequencyStereo, 0.001f);
+        //InitFloatArray(m_DeltaFrequencyLeft, 0.001f);
+        //InitFloatArray(m_DeltaFrequencyRight, 0.001f);
 
 
         // Creates the empty arrays for the max recorded samples
@@ -145,17 +145,19 @@ public class AudioVisualization : MonoBehaviour
         m_HighestFrequencyLeft = new float[m_NumberOfFrequencyBands];
         m_HighestFrequencyRight = new float[m_NumberOfFrequencyBands];
 
-        InitFloatArray(m_HighestFrequencyStereo, 1f);
-        InitFloatArray(m_HighestFrequencyLeft, 1f);
-        InitFloatArray(m_HighestFrequencyRight, 1f);
+        //InitFloatArray(m_HighestFrequencyStereo, 1f);
+        //InitFloatArray(m_HighestFrequencyLeft, 1f);
+        //InitFloatArray(m_HighestFrequencyRight, 1f);
 
 
         // Creates the empty array for the total audio samlpes
         m_SamplesLeft = new float[(int)Mathf.Pow(2, m_NumberOfFrequencyBands)];
         m_SamplesRight = new float[(int)Mathf.Pow(2, m_NumberOfFrequencyBands)];
 
-        InitFloatArray(m_SamplesLeft, 0);
-        InitFloatArray(m_SamplesRight, 0);
+        //InitFloatArray(m_SamplesLeft, 0);
+        //InitFloatArray(m_SamplesRight, 0);
+
+        ResetAllValues();
 
         m_AudioSource.time = m_StartSec;
         m_EndSec = m_StartSec >= m_EndSec ? m_AudioSource.clip.length : m_EndSec;
@@ -309,9 +311,10 @@ public class AudioVisualization : MonoBehaviour
 
     private void CheckTimeLimit()
     {
-        if(m_AudioSource.time >= m_EndSec)
+        if(m_AudioSource.time >= m_EndSec || !m_AudioSource.isPlaying)
         {
             m_AudioSource.Stop();
+            ResetAllValues();
             m_OnEnd.Invoke();
         }
     }
@@ -348,6 +351,28 @@ public class AudioVisualization : MonoBehaviour
         {
             array[i] = initValue;
         }
+    }
+
+    public void ResetAllValues()
+    {
+        InitFloatArray(m_CurrentFrequencyStereo, 0.01f);
+        InitFloatArray(m_CurrentFrequencyLeft, 0.01f);
+        InitFloatArray(m_CurrentFrequencyRight, 0.01f);
+
+        InitFloatArray(m_LastFrequencyStereo, 0);
+        InitFloatArray(m_LastFrequencyLeft, 0);
+        InitFloatArray(m_LastFrequencyRight, 0);
+
+        InitFloatArray(m_DeltaFrequencyStereo, 0.001f);
+        InitFloatArray(m_DeltaFrequencyLeft, 0.001f);
+        InitFloatArray(m_DeltaFrequencyRight, 0.001f);
+
+        InitFloatArray(m_HighestFrequencyStereo, 1f);
+        InitFloatArray(m_HighestFrequencyLeft, 1f);
+        InitFloatArray(m_HighestFrequencyRight, 1f);
+
+        InitFloatArray(m_SamplesLeft, 0);
+        InitFloatArray(m_SamplesRight, 0);
     }
 
     public void SetStartTime(float time)

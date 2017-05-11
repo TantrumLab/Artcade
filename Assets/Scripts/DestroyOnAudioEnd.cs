@@ -20,7 +20,6 @@ public class DestroyOnAudioEnd : MonoBehaviour
         if (Random.Range(0, m_ClipRarety) == 0)
         {
             m_AudioSource.clip = m_SecreteClip;
-            m_AudioSource.pitch = 1;
         }
 
         m_AudioSource.loop = false;
