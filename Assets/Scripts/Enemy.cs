@@ -18,6 +18,9 @@ public class Enemy : MonoBehaviour
 
     public GameObject m_Projectile;
 
+    [SerializeField, Range(0f, 1f)]
+    private float m_AccruacyDefect;
+
     private Vector3 m_OriginalPos;
 
     private AudioVisualization m_AV;
@@ -180,10 +183,11 @@ public class Enemy : MonoBehaviour
 
             bullet.transform.LookAt(player.transform);
 
-            float error = 0.1f;
-
             bullet.GetComponent<EnemyBullet>().SetInitValues(10f, 10f, bullet.transform.forward +
-                new Vector3(Random.Range(-error, error), Random.Range(-error, error), Random.Range(-error, error)));
+                new Vector3(
+                    Random.Range(-m_AccruacyDefect, m_AccruacyDefect),
+                    Random.Range(-m_AccruacyDefect, m_AccruacyDefect),
+                    Random.Range(-m_AccruacyDefect, m_AccruacyDefect)));
 
             yield return new WaitForSeconds(Random.Range(7, 21));
         }

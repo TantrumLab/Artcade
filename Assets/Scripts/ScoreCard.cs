@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using System;
 
 public class ScoreCard : MonoBehaviour
 {
     #region Variables
-    private int m_SongIndex = 1; // Used to identify player pref for comparison
+    [SerializeField] private int m_SongIndex = 0; // Used to identify player pref for comparison
     Dictionary<int, List<Score>> m_SongScores = new Dictionary<int, List<Score>>();
 
     int m_targetHighscore = 0;      // Highest score for the selected song
     int m_displayedScore = 0;       // Score displayed to the player through the m_scoreText
     int m_actualScore = 0;          // The real score
 
+    [SerializeField] InputField m_playerName;
+
     [SerializeField] Text m_scoreText;
-    [SerializeField] Text m_score1Text;
-    [SerializeField] Text m_score2Text;
-    [SerializeField] Text m_score3Text;
+    [SerializeField] Text[] m_Top10Text;
+
+    private bool m_canScore = false;
+
+    public void CanScore(bool b)
+    {
+        m_canScore = b;
+    }
 
     public static ScoreCard instance
     {
@@ -32,7 +38,8 @@ public class ScoreCard : MonoBehaviour
     {
         set
         {
-            m_actualScore = value;
+            if(m_canScore)
+                m_actualScore = value;
 
             if (m_displayedScore != m_actualScore)
                 StartCoroutine(ScoreTick());
@@ -53,11 +60,11 @@ public class ScoreCard : MonoBehaviour
     private void Start()
     {
         List <Score> ls1 =  new List<Score>();
-        m_SongScores.Add(1, ls1);
+        m_SongScores.Add(0, ls1);
         List<Score> ls2 = new List<Score>();
-        m_SongScores.Add(2, ls2);
+        m_SongScores.Add(1, ls2);
         List<Score> ls3 = new List<Score>();
-        m_SongScores.Add(3, ls3);
+        m_SongScores.Add(2, ls3);
     }
 
     public void ScoreDelta(int a_deltaScore)
@@ -65,17 +72,48 @@ public class ScoreCard : MonoBehaviour
         ActualScore += a_deltaScore;
     }
 
-    // debug Function and var
-    int test = 5;
-    [ContextMenu("Addscore")]
-    public void TestScorePush()
+    public void StartNewRound(int index)
     {
-        AddScore("Daniel", test);
-        test += 5;
+        DisplayScore = 0;
+        ActualScore = 0;
+        m_SongIndex = index;
     }
+
+    public void SelfAddScore()
+    {
+        AddScore(m_playerName.text, ActualScore);
+    }
+
+    //[ContextMenu("print")]
+    public void UpdateScores()
+    {
+        m_playerName.text = null;
+
+        string t = "";
+        foreach (Score s in m_SongScores[m_SongIndex])
+        {
+            t += s.name + "\t\t" + s.score + "\n";
+        }
+        m_Top10Text[m_SongIndex].text = t;
+
+        DisplayScore = 0;
+        ActualScore = 0;
+    }
+
+    // debug Function and var
+    //int test = 5;
+    //[ContextMenu("Addscore")]
+    //public void TestScorePush()
+    //{
+    //    AddScore("Daniel", test);
+    //    test += 5;
+    //}
     
     public void AddScore(Score a_score)
     {
+        if (a_score.name == "")
+            a_score.name = "John Doe";
+
         m_SongScores[m_SongIndex].Add(a_score);
         m_SongScores[m_SongIndex] = SortScores(m_SongScores[m_SongIndex]);
 
@@ -84,12 +122,6 @@ public class ScoreCard : MonoBehaviour
         {
             t += s.name + " " + s.score + ", ";
         }
-        Debug.Log(t);
-
-        //while (m_SongScores[m_SongIndex].Count > 10)
-        //{
-
-        //}
     }
 
     public void AddScore(string a_name, int a_score)
@@ -134,7 +166,6 @@ public class ScoreCard : MonoBehaviour
 
     }
 }
-
 
 public struct Score : IComparer <Score>
 {
