@@ -7,7 +7,7 @@ public class HitFlash : MonoBehaviour
     private Renderer m_Renderer;
     private Color m_NewColor;
 
-    [SerializeField]
+    [SerializeField, Range(1f, 2f)]
     private float m_FlashSpeed;
     [SerializeField]
     private float m_MaxOpacity;
@@ -21,12 +21,16 @@ public class HitFlash : MonoBehaviour
 
 	void Update ()
     {
-        m_NewColor.a = m_Renderer.material.color.a > 0 ? m_NewColor.a - Time.deltaTime * m_FlashSpeed : 0;
+        m_NewColor.a -= m_Renderer.material.color.a > 0 ? Time.deltaTime * (m_FlashSpeed) : 0;
         m_Renderer.material.color = m_NewColor;
 	}
 
+    [ContextMenu("Flash")]
     public void Flash()
     {
+        print(m_Renderer.material.color.a);
+        print(m_NewColor.a);
         m_NewColor.a = m_MaxOpacity;
+        print(m_NewColor.a);
     }
 }
