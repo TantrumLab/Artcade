@@ -62,8 +62,18 @@ public class GameManager : MonoBehaviour
 
         // Trigger text indicate round is complete
 
+        m_onEnd.Invoke();
+
+        StartCoroutine(_WaitRespawnScreen());
+    }
+
+    IEnumerator _WaitRespawnScreen()
+    {
+        yield return new WaitForSeconds(5);
+
         foreach (GameObject g in m_hideOnPlay)
             g.SetActive(true);
+
     }
 
 }

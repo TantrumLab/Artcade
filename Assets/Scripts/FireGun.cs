@@ -11,17 +11,19 @@ public class FireGun : MonoBehaviour
 
     private Animator m_anim;
     private AudioSource m_audioSource;
+    private bool m_canShoot;// = true;
 
     private void Awake()
     {
+        m_canShoot = true;
         m_anim = GetComponent<Animator>();
         m_audioSource = GetComponent<AudioSource>();
     }
 
     void Update ()
     {
-        m_anim.SetBool("Fire", m_hand.controller.GetHairTrigger());
-	}
+        m_anim.SetBool("Fire", m_hand.controller.GetHairTrigger() && m_canShoot);
+    }
 
     void Shoot()
     {
@@ -37,6 +39,7 @@ public class FireGun : MonoBehaviour
 
     public void Ceasefire()
     {
+        m_canShoot = false;
         StartCoroutine(_Ceasefire());
     }
 
@@ -62,5 +65,6 @@ public class FireGun : MonoBehaviour
     IEnumerator _Ceasefire()
     {
         yield return new WaitForSeconds(10);
+        m_canShoot = true;
     }
 }

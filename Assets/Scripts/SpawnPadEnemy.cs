@@ -103,7 +103,7 @@ public class SpawnPadEnemy : MonoBehaviour
         if ((m_AV.m_CurrentFrequencyStereo[m_InstantSpawnBand]) >= m_SpawnThreshold)
         {
             SpawnEnemy(m_Health, m_Speed, m_Spin);
-            print("Spawn");
+            //print("Spawn");
         }
     }
 

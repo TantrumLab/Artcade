@@ -19,6 +19,13 @@ public class ScoreCard : MonoBehaviour
     [SerializeField] Text m_scoreText;
     [SerializeField] Text[] m_Top10Text;
 
+    public bool m_canScore = false;
+
+    public void CanScore(bool b)
+    {
+        m_canScore = b;
+    }
+
     public static ScoreCard instance
     {
         get
@@ -31,7 +38,8 @@ public class ScoreCard : MonoBehaviour
     {
         set
         {
-            m_actualScore = value;
+            if(m_canScore)
+                m_actualScore = value;
 
             if (m_displayedScore != m_actualScore)
                 StartCoroutine(ScoreTick());
@@ -52,11 +60,11 @@ public class ScoreCard : MonoBehaviour
     private void Start()
     {
         List <Score> ls1 =  new List<Score>();
-        m_SongScores.Add(1, ls1);
+        m_SongScores.Add(0, ls1);
         List<Score> ls2 = new List<Score>();
-        m_SongScores.Add(2, ls2);
+        m_SongScores.Add(1, ls2);
         List<Score> ls3 = new List<Score>();
-        m_SongScores.Add(3, ls3);
+        m_SongScores.Add(2, ls3);
     }
 
     public void ScoreDelta(int a_deltaScore)
@@ -66,6 +74,8 @@ public class ScoreCard : MonoBehaviour
 
     public void StartNewRound(int index)
     {
+        DisplayScore = 0;
+        ActualScore = 0;
         m_SongIndex = index;
     }
 
@@ -101,6 +111,9 @@ public class ScoreCard : MonoBehaviour
     
     public void AddScore(Score a_score)
     {
+        if (a_score.name == "")
+            a_score.name = "John Doe";
+
         m_SongScores[m_SongIndex].Add(a_score);
         m_SongScores[m_SongIndex] = SortScores(m_SongScores[m_SongIndex]);
 
@@ -109,12 +122,6 @@ public class ScoreCard : MonoBehaviour
         {
             t += s.name + " " + s.score + ", ";
         }
-        Debug.Log(t);
-
-        //while (m_SongScores[m_SongIndex].Count > 10)
-        //{
-
-        //}
     }
 
     public void AddScore(string a_name, int a_score)
