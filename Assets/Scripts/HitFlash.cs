@@ -7,7 +7,7 @@ public class HitFlash : MonoBehaviour
     private Renderer m_Renderer;
     private Color m_NewColor;
 
-    [SerializeField, Range(1f, 2f)]
+    [SerializeField, Range(1f, 10f)]
     private float m_FlashSpeed;
     [SerializeField]
     private float m_MaxOpacity;
