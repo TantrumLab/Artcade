@@ -51,15 +51,18 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private float m_Spin;
 
-    private float m_TimeAlive;
+    private float m_FireingTime;
 
     public List<Transform> m_FlightPath = new List<Transform>();
 
-    public void SetInitValues(float health, float speed, float spin, List<Transform> path)
+    private float m_TimeAlive;
+
+    public void SetInitValues(float health, float speed, float spin, float fireTime, List<Transform> path)
     {
         m_Health = health;
         m_Speed = speed;
         m_Spin = spin;
+        m_FireingTime = fireTime;
 
         foreach(Transform t in path)
         {
@@ -160,14 +163,13 @@ public class Enemy : MonoBehaviour
     private IEnumerator ShootPlayer()
     {
         yield return new WaitForSeconds(5 + Random.Range(0, 5));
+        GameObject player = FindObjectOfType<PlayerBody>().gameObject;
+        Vector3 toPlayer;
+        RaycastHit rayHit;
 
-        while(gameObject.activeSelf)
+        while (gameObject.activeSelf && m_FireingTime > 0)
         {
-            GameObject player = FindObjectOfType<PlayerBody>().gameObject;
-
-            Vector3 toPlayer = player.transform.position - transform.position;
-
-            RaycastHit rayHit;
+            toPlayer = player.transform.position - transform.position;
 
             yield return new WaitForFixedUpdate();
 
@@ -189,6 +191,7 @@ public class Enemy : MonoBehaviour
                     Random.Range(-m_AccruacyDefect, m_AccruacyDefect),
                     Random.Range(-m_AccruacyDefect, m_AccruacyDefect)));
 
+            m_FireingTime -= Time.deltaTime;
             yield return new WaitForSeconds(Random.Range(7, 21));
         }
     }
