@@ -14,6 +14,9 @@ public class SpawnPadEnemy : MonoBehaviour
     private GameObject m_EnemyPrefab;
 
     [SerializeField]
+    private float m_EnemyDifficulty;
+
+    [SerializeField]
     private int m_InstantSpawnBand;
 
     [SerializeField]
@@ -38,7 +41,6 @@ public class SpawnPadEnemy : MonoBehaviour
     private float m_Health, m_Speed, m_Spin;
 
     public List<Transform> m_EnemyPath = new List<Transform>();
-
 
     private IEnumerator Start ()
     {
@@ -93,11 +95,7 @@ public class SpawnPadEnemy : MonoBehaviour
                 break;
         }
     }
-
-    private void FixedUpdate ()
-    {
-	}
-
+    
     private void InstantSpawn()
     {
         if ((m_AV.m_CurrentFrequencyStereo[m_InstantSpawnBand]) >= m_SpawnThreshold)
@@ -118,7 +116,17 @@ public class SpawnPadEnemy : MonoBehaviour
     {
         int r = Random.Range(0, 8);
         GameObject drone = Instantiate(m_EnemyPrefab, m_SubSpawnPads[r], transform.rotation) as GameObject;
-        drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_EnemyPath);
+        drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_EnemyDifficulty, m_EnemyPath);
         drone.transform.localScale *= 0.25f + (health / m_MaxHealth);
-    }   
+    }
+
+    public void SetSpawnFrequency(float frequency)
+    {
+        m_SpawnThreshold = Mathf.Clamp(frequency, 0, 1);
+    }
+
+    public void SetEnemyDifficulty(float dificulty)
+    {
+        m_EnemyDifficulty = dificulty;
+    }
 }
