@@ -41,6 +41,7 @@ public class GemFollow : MonoBehaviour
 
         if (transform.localScale.x < 0.1f)
         {
+            ScoreCard.instance.ActualScore += 10;
             Destroy(gameObject);
         }
     }

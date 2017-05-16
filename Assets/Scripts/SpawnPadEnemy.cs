@@ -14,6 +14,9 @@ public class SpawnPadEnemy : MonoBehaviour
     private GameObject m_EnemyPrefab;
 
     [SerializeField]
+    private GameObject m_redBarrel;
+
+    [SerializeField]
     private float m_EnemyDifficulty;
 
     [SerializeField]
@@ -115,9 +118,20 @@ public class SpawnPadEnemy : MonoBehaviour
     private void SpawnEnemy(float health, float speed, float spin)
     {
         int r = Random.Range(0, 8);
-        GameObject drone = Instantiate(m_EnemyPrefab, m_SubSpawnPads[r], transform.rotation) as GameObject;
-        drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_EnemyDifficulty, m_EnemyPath);
-        drone.transform.localScale *= 0.25f + (health / m_MaxHealth);
+        if(Random.Range(0, 100) == 0)
+        {
+            GameObject drone = Instantiate(m_redBarrel, m_SubSpawnPads[r], transform.rotation) as GameObject;
+            drone.GetComponent<Enemy>().SetInitValues(1, 2, 0, -1, m_EnemyPath);
+            drone.GetComponent<Enemy>().m_Renderer.material.color = Color.blue;
+            drone.transform.localScale = Vector3.one;
+        }
+
+        else
+        {
+            GameObject drone = Instantiate(m_EnemyPrefab, m_SubSpawnPads[r], transform.rotation) as GameObject;
+            drone.GetComponent<Enemy>().SetInitValues(health, speed, spin, m_EnemyDifficulty, m_EnemyPath);
+            drone.transform.localScale *= 0.25f + (health / m_MaxHealth);
+        }
     }
 
     public void SetSpawnFrequency(float frequency)
