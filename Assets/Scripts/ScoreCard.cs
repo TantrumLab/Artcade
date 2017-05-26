@@ -74,9 +74,13 @@ public class ScoreCard : MonoBehaviour
 
     public void StartNewRound(int index)
     {
-        DisplayScore = 0;
+        m_actualScore = 0;
+        m_displayedScore = 0;
+
         ActualScore = 0;
+        DisplayScore = 0;
         m_SongIndex = index;
+        m_playerName.text = null;
     }
 
     public void SelfAddScore()
@@ -87,7 +91,6 @@ public class ScoreCard : MonoBehaviour
     //[ContextMenu("print")]
     public void UpdateScores()
     {
-        m_playerName.text = null;
 
         string t = "";
         foreach (Score s in m_SongScores[m_SongIndex])
@@ -95,9 +98,6 @@ public class ScoreCard : MonoBehaviour
             t += s.name + "\t\t" + s.score + "\n";
         }
         m_Top10Text[m_SongIndex].text = t;
-
-        DisplayScore = 0;
-        ActualScore = 0;
     }
 
     // debug Function and var

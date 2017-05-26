@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 /// <summary>
 /// Class for enemy drones
@@ -25,6 +26,8 @@ public class Enemy : MonoBehaviour
 
     private AudioVisualization m_AV;
 
+    [SerializeField] private UnityEvent m_onDie;
+
     /// <summary>
     /// The current health of the enemy
     /// </summary>
@@ -39,6 +42,7 @@ public class Enemy : MonoBehaviour
             m_AudioSource.PlayOneShot(m_AudioSource.clip, 1f);
             m_Health = value;
             if (m_Health <= 0) Die();
+            else m_explodeOnDeath = true;
         }
     }
 
@@ -57,6 +61,10 @@ public class Enemy : MonoBehaviour
 
     private float m_TimeAlive;
 
+    private float m_TotalNodes;
+
+    public bool m_explodeOnDeath = true;
+
     public void SetInitValues(float health, float speed, float spin, float fireTime, List<Transform> path)
     {
         m_Health = health;
@@ -69,6 +77,7 @@ public class Enemy : MonoBehaviour
             m_FlightPath.Add(t);
         }
 
+        m_TotalNodes = m_FlightPath.Count;
         Vector3 color = new Vector3(health, speed, spin);
         color.Normalize();
 
@@ -100,6 +109,8 @@ public class Enemy : MonoBehaviour
         CheckWaypoint();
         CheckGameOver();
 	}
+
+    
 
     private void MoveForward()
     {
@@ -144,7 +155,9 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         ScoreCard.instance.ActualScore += m_Health <= 0 ? 15 : 0;
-        Instantiate(m_ExplosionPrefab, transform.position, transform.rotation);
+        GameObject e = Instantiate(m_ExplosionPrefab, transform.position, transform.rotation);
+        e.GetComponent<AudioSource>().enabled = m_explodeOnDeath;
+        m_onDie.Invoke();
         Destroy(gameObject);
     }
 
@@ -167,7 +180,7 @@ public class Enemy : MonoBehaviour
         Vector3 toPlayer;
         RaycastHit rayHit;
 
-        while (gameObject.activeSelf && m_FireingTime > 0)
+        while (gameObject.activeSelf && (m_FireingTime * m_TotalNodes) + 1 < m_FlightPath.Count)
         {
             toPlayer = player.transform.position - transform.position;
 
@@ -190,8 +203,7 @@ public class Enemy : MonoBehaviour
                     Random.Range(-m_AccruacyDefect, m_AccruacyDefect),
                     Random.Range(-m_AccruacyDefect, m_AccruacyDefect),
                     Random.Range(-m_AccruacyDefect, m_AccruacyDefect)));
-
-            m_FireingTime -= Time.deltaTime;
+            
             yield return new WaitForSeconds(Random.Range(7, 21));
         }
     }
