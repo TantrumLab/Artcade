@@ -168,9 +168,9 @@ public class AudioVisualization : MonoBehaviour
     {
         GetAudioSpectrumData();
 
-        SplitStereoAudioArrayToFrequenceBands(m_SamplesLeft, m_SamplesRight, m_CurrentFrequencyStereo);
-        SplitSingleAudioChannelArrayToFrequenceBands(m_SamplesLeft, m_CurrentFrequencyLeft);
-        SplitSingleAudioChannelArrayToFrequenceBands(m_SamplesRight, m_CurrentFrequencyRight);
+        SplitStereoAudioArrayToFrequencyBands(m_SamplesLeft, m_SamplesRight, m_CurrentFrequencyStereo);
+        SplitSingleAudioChannelArrayToFrequencyBands(m_SamplesLeft, m_CurrentFrequencyLeft);
+        SplitSingleAudioChannelArrayToFrequencyBands(m_SamplesRight, m_CurrentFrequencyRight);
 
         NormalizeFrequencyBands(m_HighestFrequencyStereo, m_CurrentFrequencyStereo);
         NormalizeFrequencyBands(m_HighestFrequencyLeft, m_CurrentFrequencyLeft);
@@ -201,7 +201,7 @@ public class AudioVisualization : MonoBehaviour
     /// <param name="audioArrayLeft">Left channel array</param>
     /// <param name="audioArrayright">Right channel array</param>
     /// <param name="splitArray">Array to dump distributed samples in</param>
-    private void SplitStereoAudioArrayToFrequenceBands(float[] audioArrayLeft, float[] audioArrayRight, float[] splitArray)
+    private void SplitStereoAudioArrayToFrequencyBands(float[] audioArrayLeft, float[] audioArrayRight, float[] splitArray)
     {
         // The average value for this samples range
         float average = 0;
@@ -241,7 +241,7 @@ public class AudioVisualization : MonoBehaviour
     /// </summary>
     /// <param name="audioArrayChannel">single channel array</param>
     /// <param name="splitArray">Array to dump distributed samples in</param>
-    private void SplitSingleAudioChannelArrayToFrequenceBands(float[] audioArrayChannel, float[] splitArray)
+    private void SplitSingleAudioChannelArrayToFrequencyBands(float[] audioArrayChannel, float[] splitArray)
     {
         // The average value for this samples range
         float average = 0;
